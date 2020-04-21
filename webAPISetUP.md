@@ -11,7 +11,7 @@
 - npm i cors
 - npm i bcryptjs
 - npm i express-session (if coding out sessions else use jsonwebtoken)
-- npm i node-jose
+- npm i jsonwebtoken
 
 2) Set up relevant folders and files
 
