@@ -4,6 +4,7 @@ const express = require('express');
 //set up security and control objects with helmet and cors
 const helmet = require('helmet');
 const cors = require('cors');
+const dotenv = require('dotenv');
 
 //set up router objects
 const usersRouter = require('../users/users-router.js');
