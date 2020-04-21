@@ -7,6 +7,11 @@
 - npm i express
 - npm i knex sqlite3
 - npx knex init
+- npm i helmet
+- npm i cors
+- npm i bcryptjs
+- npm i express-session (if coding out sessions else use jsonwebtoken)
+- npm i node-jose
 
 2) Set up relevant folders and files
 
