@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
     //verify the token
     if(token) {
         //if the token is valid
-        jqt.verify(token, secret, (error, decodedToken) => {
+        jwt.verify(token, secret, (error, decodedToken) => {
             //if the token is valid, error will be undefined
             if (error) {
                 res.status(401).json({ message: 'Invalid token'})

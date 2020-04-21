@@ -1,7 +1,7 @@
 //set up express objects 
 const express = require('express');
 
-//set up security and control objects with helmet and cors
+//set up security and control objects with helmet, cor, dotenv
 const helmet = require('helmet');
 const cors = require('cors');
 const dotenv = require('dotenv');

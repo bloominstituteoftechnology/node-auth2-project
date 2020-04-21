@@ -3,7 +3,7 @@
 //department needs to be a sting used to group the users together.
 //department does not need a tabl or setting up relationships
 exports.up = function(knex) {
-    return knex.schema.createTables('users', users => {
+    return knex.schema.createTable('users', users => {
         users.increments();
 
         users
