@@ -1,8 +1,24 @@
 
+//set up user scheme to include username, password, and department.
+//department needs to be a sting used to group the users together.
+//department does not need a tabl or setting up relationships
 exports.up = function(knex) {
-  
+    return knex.schema.createTables('users', users => {
+        users.increments();
+
+        users
+            .string('username', 128)
+            .notNullable()
+            .unique();
+
+        users.string('password', 128)
+            .notNullable();
+
+        users.string('department', 128)
+            .notNullable();
+    })
 };
 
 exports.down = function(knex) {
-  
+    return knex.schema.dropTableIfExists('users');
 };

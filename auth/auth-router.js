@@ -11,8 +11,8 @@ const secrets = require('../api/secrets.js');
 function generateToken(user) {
     //the data
     const payload = {
-        userId = user.id,
-        username = user.username,
+        userId: user.id,
+        username: user.username,
     };
     const secret = secrets.jwtSecret;
     const options = {
