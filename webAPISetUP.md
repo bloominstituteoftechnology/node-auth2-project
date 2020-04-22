@@ -21,5 +21,7 @@
 - npx knex migrate:latest
 
 4) Set up seeds
-- npx seed:run
+- npx knex seed:make 00-cleanup
 - npm i knex-cleaner
+- npx knex seed:make 00x-*name of seed file to inject into DB*
+- npx seed:run
