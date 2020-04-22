@@ -11,7 +11,6 @@ server.use(express.json());
 server.use(cors());
 server.use("/api/auth", authRouter);
 server.use('/api/users', token, checkUser('users'), usersRouter)
-
 server.get('/', (req,res) => {
     res.send('message')
 })
