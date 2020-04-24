@@ -25,7 +25,7 @@ The user schema should include: `username`, `password` and `department`. The `de
 
 Use **JSON Web Tokens** to keep users authenticated across requests.
 
-### Design and build the following endpoints.
+### Design and build the following endpoints
 
 | Method | Endpoint      | Description                                                                                                                                                                                                                                                            |
 | ------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
