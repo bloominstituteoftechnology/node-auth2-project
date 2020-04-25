@@ -3,7 +3,8 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const usersRouter = require('./users/router');
+const usersRouter = require('./users/router.js');
+const authRouter = require('./auth/router.js');
 
 const app = express();
 
@@ -14,6 +15,11 @@ app.use(cors());
 
 // Routers
 app.use('/api/users', usersRouter);
+app.use('/api/auth', authRouter);
+
+app.get('/api/status', (req, res) => {
+	res.send({ api: 'up'});
+});
 
 module.exports = app;
 
