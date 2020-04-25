@@ -1,4 +1,9 @@
-function get() {};
+const db = require('../../data/dbConfig.js');
+const query = db('users');
+
+async function get() {
+	
+};
 
 function getBy(filter) {};
 
