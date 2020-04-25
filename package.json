@@ -1,0 +1,27 @@
+{
+  "name": "auth-with-jwt",
+  "version": "1.0.0",
+  "description": "lambdaschool assignment backend authentication node express server using JWTs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodyBrewer/node-auth2-project.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "knex",
+    "sqlite3",
+    "JWT",
+    "bcryptjs"
+  ],
+  "author": "CodyBrewer (https://github.com/CodyBrewer)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CodyBrewer/node-auth2-project/issues"
+  },
+  "homepage": "https://github.com/CodyBrewer/node-auth2-project#readme"
+}
