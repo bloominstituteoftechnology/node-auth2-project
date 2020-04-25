@@ -3,7 +3,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 
-const app = express;
+const app = express();
 
 // Global Middleware
 app.use(helmet());
