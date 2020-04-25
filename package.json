@@ -4,7 +4,9 @@
   "description": "lambdaschool assignment backend authentication node express server using JWTs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/CodyBrewer/node-auth2-project/issues"
   },
-  "homepage": "https://github.com/CodyBrewer/node-auth2-project#readme"
+  "homepage": "https://github.com/CodyBrewer/node-auth2-project#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
 }
