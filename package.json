@@ -28,5 +28,13 @@
   "homepage": "https://github.com/CodyBrewer/node-auth2-project#readme",
   "devDependencies": {
     "nodemon": "^2.0.3"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "knex": "^0.21.0",
+    "sqlite3": "^4.1.1"
   }
 }
