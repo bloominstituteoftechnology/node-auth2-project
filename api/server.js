@@ -18,8 +18,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
 
 app.get('/api/status', (req, res) => {
-	res.send({ api: 'up'});
+  res.send({ api: 'up' });
 });
 
 module.exports = app;
-

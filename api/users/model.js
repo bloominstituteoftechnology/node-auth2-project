@@ -1,29 +1,38 @@
 const db = require('../../data/dbConfig.js');
+
 const query = db('users');
 
-async function get() {
-    const users = await query;
-    return users 
-      ? users
-      : null;
-};
+function getAll() {
+  return query;
+}
 
-function getBy(filter) {};
+function getBy(filter) {
+  return query.where(filter);
+}
 
-function add(user) {};
+async function add(user) {
+  const [userid] = await query.insert(user, 'userid');
 
-function remove(userid) {};
+  return getBy({ userid });
+}
 
-function update(userid, changes) {};
+function remove(userid) {
+  return userid;
+}
 
-function patch(userid, changes) {};
+function update(userid, changes) {
+  return { userid, changes };
+}
+
+function patch(userid, changes) {
+  return { userid, changes };
+}
 
 module.exports = {
-    get,
-    getBy,
-    add, 
-    remove, 
-    update, 
-    patch,
+  getAll,
+  getBy,
+  add,
+  remove,
+  update,
+  patch,
 };
-
