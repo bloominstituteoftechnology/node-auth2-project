@@ -8,7 +8,7 @@ router.use('/status', (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const users = await Users.get();
+    const users = await Users.getAll();
     if (users) {
       res.status(200).json(users);
     } else {
