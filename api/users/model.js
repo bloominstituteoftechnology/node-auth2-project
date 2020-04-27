@@ -1,17 +1,17 @@
 const db = require('../../data/dbConfig.js');
 
-const query = db('users');
+const table = 'users';
 
 function getAll() {
-  return query;
+  return db(table);
 }
 
 function getBy(filter) {
-  return query.where(filter);
+  return db(table).where(filter).first();
 }
 
 async function add(user) {
-  const [userid] = await query.insert(user, 'userid');
+  const [userid] = await db(table).insert(user, 'userid');
 
   return getBy({ userid });
 }
