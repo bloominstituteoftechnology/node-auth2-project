@@ -115,6 +115,3 @@ dist
 .yarn/build-state.yml
 .pnp.*
 
-# lockfiles
-.package-lock.json
-yarn.lock
