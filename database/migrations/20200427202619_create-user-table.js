@@ -7,6 +7,7 @@ exports.up = function(knex) {
       .notNullable()
       .unique()
       users.string('password',123).notNullable()
+      users.department("string",123).notNullable()
   })
 };
 

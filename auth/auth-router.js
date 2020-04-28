@@ -48,7 +48,7 @@ function generateToken(user){
         username:user.username
     }
 
- const secret="You should know this"
+ const secret= process.env.JWT_SECRET || "You should know this "
 
  const options={
   expiresIn:'1h',
