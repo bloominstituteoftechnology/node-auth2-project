@@ -1,0 +1,43 @@
+.form {
+  position: relative;
+
+  background-color: $color-grey;
+  padding: 4rem 5rem;
+  border: 1px solid black;
+
+  box-shadow: 1.2rem 1.3rem 10rem 10px $color-primary;
+
+  display: flex;
+  flex-direction: column;
+
+  &__field {
+    margin: 0.5rem 0;
+    padding: 0.5rem 1rem;
+    border: 1px solid $color-primary;
+    border-radius: 3.5rem;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding-top: 1rem;
+
+    & > *:nth-child(n + 2) {
+      margin-left: 0.8rem;
+    }
+  }
+}
+
+.error {
+  color: red;
+  font-size: 1.2rem;
+  display: inline-block;
+  margin: 2px 0;
+  text-align: center;
+
+  &:first-of-type {
+    padding-top: 1rem;
+  }
+}
