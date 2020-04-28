@@ -19,11 +19,15 @@ async function add(user) {
 
   return findById(id);
 }
-
+function remove(id) {
+  return db('users')
+    .where({ id }).del();
+}
 
 module.exports = {
   add,
   find,
   findBy,
   findById,
+  remove,
 };

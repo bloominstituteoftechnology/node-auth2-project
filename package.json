@@ -27,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.0",
     "nodemon": "^2.0.3",
+    "reactstrap": "^8.4.1",
     "sqlite3": "^4.1.1"
   },
   "devDependencies": {
