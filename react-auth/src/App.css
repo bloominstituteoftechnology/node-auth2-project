@@ -18,3 +18,33 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 }
+
+.home, .login, .register{
+  height:1000px;
+  background-image:url('./components/maci.jpeg'); 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+/* .container{
+  height:2000px;
+  background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+} */
+.navigation{
+  background-image: linear-gradient(to right, #16A085 0%, #F4D03F 51%, #16A085 100%)
+}
+#btn{
+  background-image: linear-gradient(to right, #16A085 0%, #F4D03F 51%, #16A085 100%)
+}
+
+.navbar a{
+  color: #334d50;
+  font-weight: bold;
+  font-family: 'Acme', sans-serif;
+}
+.welcome-text{
+  position: absolute;
+  text-align: center;
+  margin: 10% 30%;
+}

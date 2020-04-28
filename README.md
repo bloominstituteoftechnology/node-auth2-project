@@ -1,5 +1,6 @@
 # Authentication using JSON Web Tokens (JWTs)
 Heroku deployed API  --- https://users-tulea.herokuapp.com/
+Netlify deployed app --- https://register-login-app.netlify.app/
 ## Topics
 
 - Authentication.

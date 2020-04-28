@@ -54,7 +54,7 @@ const deleteUser = (id) => {
                     </div>):(console.log("not an admin"))
                 } */}
                  <div className="ui two buttons">
-                   <Button onClick={() => deleteUser(user.id)} basic color="green"> Delete user </Button>
+                   <Button  onClick={() => deleteUser(user.id)} basic color="green"> Delete user </Button>
                  </div>
                </Card.Content>
              </Card>

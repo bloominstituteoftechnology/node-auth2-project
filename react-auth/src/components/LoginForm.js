@@ -31,7 +31,7 @@ const LoginForm = () => {
     };  
 
     return (
-        <div>
+        <div className ="login">
             <h2>LogIn</h2>
             <Form onSubmit={handleSubmit}>
             <Form.Field>
@@ -59,7 +59,7 @@ const LoginForm = () => {
             <p>
                     Don't have an account? <Link to="/api/auth/register">Sign up</Link>!
                 </p>
-            <Button type='submit'>LogIn</Button>
+            <Button  id="btn" type='submit'>LogIn</Button>
         </Form>
         </div>
   )
