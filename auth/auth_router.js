@@ -11,7 +11,7 @@ const Users = require('../users/users_model')
 
 //extract the user object from the 'req.body'
 //hash the password with bcrypt and store on the user object
-//has format = [vers][cost][salt][hash]
+//hash format = [vers][cost][salt][hash]
 router.post('/register', (req, res) => {
     const user = req.body;
     const hash = bcrypt.hashSync(user.password, 8);
@@ -44,7 +44,7 @@ router.post('/register', (req, res) => {
             res.status(500).json(err0r);
         })
     })
-    function generateToekn(user) {
+    function generateToken(user) {
         const payload = {
             subject: user.id,
             username: user.username,
@@ -56,3 +56,4 @@ router.post('/register', (req, res) => {
         return jwt.sign(payload, secret, options);
     }
 })
+module.exports = router;

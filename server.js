@@ -4,13 +4,13 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const Users = require('./users/users_router')
-const Auth = require('./auth/auth_router')
+const AuthRouter = require('./auth/auth_router')
 const server = express();
 
 // server.use(helmet());
 server.use(cors());
 server.use(express.json());
-
+server.use('/auth', AuthRouter)
 server.get('/', (req, res) => {
     res.send('Copy, copy')
 })
