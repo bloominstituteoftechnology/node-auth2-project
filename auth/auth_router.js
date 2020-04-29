@@ -4,6 +4,7 @@ const router = require('express').Router();
 
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const secrets = require('../config/secrets')
 
 //this allwos us to look up users and add them to the DB
 const Users = require('../users/users_model')
@@ -41,19 +42,20 @@ router.post('/register', (req, res) => {
             }
         })
         .catch(error => {
-            res.status(500).json(err0r);
+            res.status(500).json(error);
         })
     })
-    function generateToken(user) {
+    function genToken(user) {
         const payload = {
-            subject: user.id,
-            username: user.username,
-        };
-        const secret = 'secret';
+            userid: user.id,
+            username: user.username
+        }
         const options = {
-            expiresIn: '30m'
-        };
-        return jwt.sign(payload, secret, options);
+            expireIn: '1h'
+            }
+        const token = jwt.sign(payload, secrets.jwtSecret, options)
+
+        return token;
     }
 })
 module.exports = router;
