@@ -3,11 +3,14 @@ const status = require("http-status-codes");
 const db = require("./data/dbConfig");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+require("dotenv").config({path: "jwt.env"});
 
 const checkCreds = require("./middleware/checkCredentialsExist");
 
 const server = express();
 server.use(express.json());
+
+const secret = process.env.secret;
 
 server.post("/api/register", checkCreds, (req, res) => {
     db("users")
@@ -22,12 +25,13 @@ server.post("/api/register", checkCreds, (req, res) => {
 });
 
 server.post("/api/login", checkCreds, (req, res) => {
+    console.log(secret);
     db("users")
         .where({username: req.credentials.username})
         .first()
         .then(res2 => {
             if (res2 && bcrypt.compareSync(req.credentials.password, res2.password)) {
-                const token = jwt.sign(res2, "topsecret", {expiresIn: "12h"});
+                const token = jwt.sign(res2, secret, {expiresIn: "12h"});
                 res.status(status.OK).json({message: "logged in!", token});
             } else {
                 res.status(status.UNAUTHORIZED).json({error: "You shall not pass"});
@@ -38,7 +42,7 @@ server.post("/api/login", checkCreds, (req, res) => {
 
 server.get("/api/users", (req, res) => {
     try {
-        const decoded = jwt.verify(req.body.token, "topsecret");
+        const decoded = jwt.verify(req.headers.authorization, secret);
         db("users")
             .where({username: decoded.username})
             .first()
