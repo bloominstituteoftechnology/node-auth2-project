@@ -17,6 +17,7 @@ router.get('/', restricted, authz, (req, res) => {
     })
     .catch((err) => res.send(err));
 });
+
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
