@@ -5,7 +5,11 @@
   "repository": "https://github.com/BenHall-7/node-auth2-project.git",
   "author": "BenHall-7 <benjaminjahall@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
   "dependencies": {
+    "bcrypt": "^4.0.1",
     "express": "^4.17.1",
     "http-status-codes": "^1.4.0",
     "jsonwebtoken": "^8.5.1",
