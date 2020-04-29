@@ -8,14 +8,13 @@ module.exports = (req, res, next) => {
   if (token) {
     jwt.verify(token, secrets.jwt_secret, (err, decodedToken) => {
       if (err) {
-        //return an error
-        res.status(401).json({ message: "bad auth" });
+        res.status(401).json({ message: "bad auth", err });
       } else {
         req.decodedToken = decodedToken;
         next();
       }
     });
   } else {
-    res.status(401).json({ message: "bad auth" });
+    res.status(401).json({ message: "bad overall auth" });
   }
 };
