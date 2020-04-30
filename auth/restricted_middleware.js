@@ -13,6 +13,6 @@ module.exports = (req, res, next) => {
             }
         })
     } else {
-        res.status(500).json({Error: "Error in restricted-middleware"})
+        res.status(401).json({Error: "Please login to access this"})
     }
 }

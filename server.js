@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = ('helmet');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-
+const restricted = require('./auth/restricted_middleware')
 const Users = require('./users/users_router')
 const AuthRouter = require('./auth/auth_router')
 const server = express();
@@ -11,6 +11,7 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 server.use('/auth', AuthRouter)
+server.use('/users', restricted, Users)
 server.get('/', (req, res) => {
     res.send('Copy, copy')
 })

@@ -25,6 +25,7 @@ router.post('/register', (req, res) => {
     .catch(error => {
         res.status(500).json(error)
     })
+})
 
     router.post('/login', (req, res) => {
         let {username, password} = req.body;
@@ -32,11 +33,9 @@ router.post('/register', (req, res) => {
         .first()
         .then(user => {
             if(user && bcrypt.compareSync(password, user.password)) {
-                const token = generateToken(user);
-                jwt_token = token;
-
-                req.session.user = username;
-                res.status(200).json({message: `Welcome ${user.name}!`})
+                console.log('hello');
+                const token = genToken(user);
+                res.status(200).json({message: `Welcome ${user.name}!`, token})
             } else {
                 res.status(401).json({message: 'invalid credentials'});
             }
@@ -51,11 +50,11 @@ router.post('/register', (req, res) => {
             username: user.username
         }
         const options = {
-            expireIn: '1h'
+            expiresIn: '1h'
             }
         const token = jwt.sign(payload, secrets.jwtSecret, options)
 
         return token;
     }
-})
+
 module.exports = router;
