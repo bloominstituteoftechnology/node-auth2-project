@@ -3,7 +3,8 @@ import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 const initialUser = {
   username: "",
-  password: "" 
+  password: "",
+  department: "",
 };
 
 const UsersList = ({ users, updateUsers }) => {
@@ -29,7 +30,7 @@ const UsersList = ({ users, updateUsers }) => {
     
     // edit user 
     axiosWithAuth()    
-      .put(`/users/${userToEdit.id}`, userToEdit)
+      .put(`/api/users/${userToEdit.id}`, userToEdit)
       .then(res => {
         setUserToEdit(userToEdit);
        editUser(userToEdit)
@@ -43,7 +44,7 @@ const UsersList = ({ users, updateUsers }) => {
   const deleteUser = user => {
     // make a delete request to delete this user
     axiosWithAuth()
-    .delete(`/users/${user.id}`)
+    .delete(`/api/users/${user.id}`)
     .then(res => {
       console.log(res);
       setEditing(false)
