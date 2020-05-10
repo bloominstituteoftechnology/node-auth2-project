@@ -1,8 +1,11 @@
+exports.up = async function(knex) {
+	await knex.schema.createTable("users", (table) => {
+		table.increments()
+		table.text("username").notNull().unique()
+		table.text("password").notNull()
+	})
+}
 
-exports.up = function(knex) {
-  
-};
-
-exports.down = function(knex) {
-  
-};
+exports.down = async function(knex) {
+	await knex.schema.dropTableIfExists("users")
+}
