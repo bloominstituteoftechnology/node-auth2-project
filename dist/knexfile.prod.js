@@ -1,0 +1,1 @@
+"use strict";module.exports={client:"sqlite3",useNullAsDefault:!0,connection:{filename:"./database/auth.db3"},migrations:{directory:"./database/migrations"},seeds:{directory:"./database/seeds"},pool:{afterCreate:function(e,t){e.run("PRAGMA foreign_keys = ON",t)}}};
