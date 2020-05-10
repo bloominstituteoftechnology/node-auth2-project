@@ -14,7 +14,7 @@ router.get("/", restrict("admin"), function _callee(req, res, next) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.prev = 0;
-          _context.t0 = res;
+          _context.t0 = res.status(200);
           _context.next = 4;
           return regeneratorRuntime.awrap(Users.find());
 

@@ -21,7 +21,7 @@ const Login = (props) => {
 
     // add in our login api call
     axiosWithAuth()
-    .post("/api/login", credentials)
+    .post("/login", credentials)
     .then(res => {
       console.log(res);
       localStorage.setItem("token", res.data.payload);

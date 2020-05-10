@@ -108,7 +108,7 @@ router.post("/login", function _callee2(req, res, next) {
           }; // this sends the token back as a cookie instead of in the request body,
           // so the client will automatically save it in its cookie jar.
 
-          res.cookie("token", jwt.sign(tokenPayload, process.env.JWT_SECRET || "La vida es sueño"));
+          res.cookie("token", jwt.sign(tokenPayload, process.env.JWT_SECRET));
           res.json({
             message: "Welcome ".concat(user.username, "!")
           });
@@ -126,5 +126,19 @@ router.post("/login", function _callee2(req, res, next) {
       }
     }
   }, null, null, [[1, 17]]);
+});
+router.get("/logout", function (req, res, next) {
+  // this will delete the session in the database and try to expire the cookie,
+  // though it's ultimately up to the client if they delete the cookie or not.
+  // but it becomes useless to them once the session is deleted server-side.
+  req.session.destroy(function (err) {
+    if (err) {
+      next(err);
+    } else {
+      res.json({
+        message: "Successfully logged out"
+      });
+    }
+  });
 });
 module.exports = router;

@@ -7,7 +7,7 @@ const router = express.Router()
 // This endpoint is only available to logged-in admin users due to the `restrict` middleware
 router.get("/", restrict("admin"), async (req, res, next) => {
 	try {
-		res.json(await Users.find())
+		res.status(200).json(await Users.find())
 	} catch(err) {
 		next(err)
 	}
