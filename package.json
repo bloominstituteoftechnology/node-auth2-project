@@ -4,7 +4,7 @@
   "description": "## Topics",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
+    "server": "nodemon -r dotenv/config index.js",
     "start": "index.js"
   },
   "repository": {
@@ -20,6 +20,8 @@
   "homepage": "https://github.com/AaronVerdine/node-auth2-project#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.1",
