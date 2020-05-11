@@ -3,6 +3,7 @@ exports.up = async function (knex) {
     table.increments("id");
     table.text("username").notNull();
     table.text("password").notNull().unique();
+    table.text("department").notNull();
   });
 };
 
