@@ -13,7 +13,7 @@ server.use(helmet())
 server.use(express.json())
 server.use(cookieParser())
 
-server.use("/auth", authRouter)
+server.use("/api", authRouter)
 server.use("/users", usersRouter)
 
 server.get("/", (req, res, next) => {

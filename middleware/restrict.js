@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const Users = require("../users/users-model")
+const users = require("../users/users-model")
 
 function restrict() {
 	const authError = {
