@@ -1,14 +1,16 @@
-const express = require("express");
-const Users = require("./users-model");
-const restrict = require("../middleware/restrict");
-const router = express.Router();
+const express = require('express')
+const db = require('../database/config')
+const router = express.Router()
+const restrict = require('../middleware/restrict')
 
-router.get("/", restrict(), async (req, res, next) => {
+router.get('/', restrict('engineering'), async (req, res, next) => {
   try {
-    res.json(await Users.find());
-  } catch (err) {
-    next(err);
+    const users = await db('users')
+    res.json(users)
   }
-});
+  catch(err) {
+    next(err)
+  }
+})
 
-module.exports = router;
+module.exports = router
