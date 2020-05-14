@@ -11,7 +11,7 @@ function restrict() {
         switch (_context.prev = _context.next) {
           case 0:
             authError = {
-              message: "Invalid credentials"
+              message: "You shall not pass!"
             };
             _context.prev = 1;
             // this utilizes the `cookie-parser` middleware to pull the JWT out

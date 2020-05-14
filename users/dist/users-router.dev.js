@@ -4,12 +4,11 @@ var express = require("express");
 
 var Users = require("./users-model");
 
-var _require = require("../middleware/restrict"),
-    restrict = _require.restrict;
+var restrict = require("../middleware/restrict");
 
-var router = express.Router(); // router.get("/", restrict("admin"),  async (req, res, next) => {
+var router = express.Router(); // This endpoint is only available to logged-in admin users due to the `restrict` middleware
 
-router.get("/", function _callee(req, res, next) {
+router.get("/", restrict("admin"), function _callee(req, res, next) {
   return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
