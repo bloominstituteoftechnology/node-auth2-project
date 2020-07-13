@@ -24,7 +24,7 @@ function restrict(role) {
 					return res.status(401).json(authError)
 				}
 
-				if (role && roles.indexOf(decoded.access) < roles.indexOf(role)) {
+				if (role && roles.indexOf(decoded.department) < roles.indexOf(role)) {
 					return res.status(401).json(authError)
 				}
 

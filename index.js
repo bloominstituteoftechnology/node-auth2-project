@@ -1,9 +1,11 @@
 const express = require("express")
+require("dotenv").config();
 const helmet = require("helmet")
 const cors = require("cors")
-const session = require("express-session")
+// const session = require("express-session")
 const cookieParser = require("cookie-parser") // cookie to object
 const usersRouter = require("./users/router")
+
 
 const server = express()
 const port = process.env.PORT || 5000

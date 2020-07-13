@@ -14,7 +14,7 @@ router.get("/users", restrict("sales"), async (req, res, next) => {
 	}
 })
 
-router.post("/users", async (req, res, next) => {
+router.post("/register", async (req, res, next) => {
 	try {
 		const { username, password } = req.body
 		const user = await Users.findBy({ username }).first()
@@ -69,7 +69,7 @@ router.post("/login", async (req, res, next) => {
 
 		res.cookie("token", jwt.sign(payload, process.env.JWT_SECRET)) // sets cookie
 		res.json({
-			message: `Welcome ${user.username}!`,
+			message: `Welcome ${user.username}! from the ${user.department} department`,
 		})
 	} catch(err) {
 		next(err)
@@ -77,17 +77,8 @@ router.post("/login", async (req, res, next) => {
 })
 
 router.get("/logout", async (req, res, next) => {
-	try {
-		req.session.destroy((err) => {
-			if (err) {
-				next(err)
-			} else {
-				res.status(204).end()
-			}
-		})
-	} catch (err) {
-		next(err)
-	}
+    res.clearCookie("token");
+    res.send("cookie has been eaten")
 })
 
 module.exports = router
