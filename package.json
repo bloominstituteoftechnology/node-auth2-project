@@ -1,0 +1,24 @@
+{
+  "name": "node-auth2-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ahaberman25/node-auth2-project",
+  "author": "Andrew Haberman <a.haberman25@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.23.3",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.2",
+    "knex-cleaner": "^1.3.0",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "server": "nodemon index.js"
+  }
+}
