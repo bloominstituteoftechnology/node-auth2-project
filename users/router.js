@@ -17,7 +17,7 @@ router.get("/users", restrict("sales"), async (req, res, next) => {
 
 router.post("/register", async (req, res, next) => {
 	try {
-		const { username, password } = req.body
+		const { username, password, department} = req.body
 		const user = await Users.findBy({ username }).first()
 
 		if (user) {
@@ -28,6 +28,7 @@ router.post("/register", async (req, res, next) => {
 		const newUser = await Users.add({
 			username,
 			password: await bcrypt.hash(password, 10),
+			department
 	})
 		res.status(201).json(newUser)
         } catch(err) {
@@ -59,9 +60,10 @@ router.post("/login", async (req, res, next) => {
 			department: user.department, 
 		}
 
-		res.cookie("token", jwt.sign(payload, process.env.JWT_SECRET)) 
+		
 		res.json({
 			message: `Welcome ${user.username}`,
+			token : jwt.sign(payload, process.env.JWT_SECRET || "something")
 		})
 	} catch(err) {
 		next(err)
