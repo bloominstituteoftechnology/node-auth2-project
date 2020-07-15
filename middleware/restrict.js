@@ -11,21 +11,28 @@ function restrict(role) {
 		const authError = {
 			message: "Invalid credentials",
 		}
+		const authError2 = {
+			message: "Invalid credentials 2",
+		}
+		const authError3 = {
+			message: "Invalid credentials 3",
+		}
 
 		try {
-			const token = req.cookies.token // read cookie
+			//const token = req.cookies.token // read cookie
+			const token = req.headers.token // for build week
 
 			if (!token) {
-				return res.status(401).json(authError)
+				return res.status(401).json(authError3)
 			}
 
-			jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => { // jwt.verify - the variable with token, secret, err
+			jwt.verify(token, "some ssecret", (err, decoded) => { // jwt.verify - the variable with token, secret, err
 				if (err) {
 					return res.status(401).json(authError)
 				}
 
 				if (role && roles.indexOf(decoded.department) < roles.indexOf(role)) {
-					return res.status(401).json(authError)
+					return res.status(401).json(authError2)
 				}
 
 				next()
