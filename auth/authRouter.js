@@ -32,9 +32,14 @@ router.post("/login", (req, res) => {
     } else {
         Users.findBy({ username })
             .then(user => {
-                const token = generateToken(user);
-                res.status(200).json({loggedon: user.username, token});
+                if(user && bcrypt.compareSync(password, user.password)) {
+                    const token = generateToken(user);
+                    res.status(200).json({loggedon: user.username, token});
+                } else {
+                    res.status(403).json({ message: "You shall not pass!" });
+                }
             })
+            .catch(err => res.status(500).json({ message: "Error getting login data" }));
     }
 });
 

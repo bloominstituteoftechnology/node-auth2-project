@@ -3,7 +3,7 @@ const secrets = require("../config/secrets.js");
 
 module.exports = (req, res, next) => {
     if(!req.headers.authorization) {
-        res.status(401).json({ message: "Missing Authorization header" });
+        res.status(401).json({ message: "You shall not pass!" });
     }
     const [authType, token] = req.headers.authorization.split(" ");
 
@@ -13,10 +13,10 @@ module.exports = (req, res, next) => {
                 req.jwt = decodedToken;
                 next();
             } else {
-                res.status(401).json({ message: "Invalid Token!" });
+                res.status(401).json({ message: "You shall not pass!", err });
             }
         });
     } else {
-        res.status(401).json({ message: "Token must be a Bearer token" });
+        res.status(401).json({ message: "You shall not pass!" });
     }
 }
