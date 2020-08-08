@@ -8,6 +8,12 @@ exports.seed = function (knex) {
     {
       name: "sales", // will get id 2
     },
+    {
+      name: "IT", // will get id 3
+    },
+    {
+      name: "HR", // will get id 4
+    },
   ];
 
   return knex("departments")

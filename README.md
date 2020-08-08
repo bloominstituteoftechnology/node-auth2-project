@@ -21,7 +21,19 @@ In this project we'll implement a full authentication workflow (register/login/l
 
 Use Node.js, Express and Knex to build an API that provides _Authentication_ functionality using SQLite to store _User_ information.
 
+use `npm init` to generate `package.json` file. Add dependiencies and run `npm i` to get project initialized
+
+use `knex init` to generate `knexfile.js` and set 
+
+use `knex migrate:make users` to make migration file()
+
+set up schema in generated js file run `knex migrate:latest` to generate db file (`knex migrate:rollback` to undo)
+
 The user schema should include: `username`, `password` and `department`. The `department` should be a string used to group the users. No need for a `departments` table or setting up relationships.
+//set up departments table with relationships
+
+generate seeds with `knex seed:make <seed_name>`
+run seeds with `knex seed:run`
 
 Use **JSON Web Tokens** to keep users authenticated across requests.
 
