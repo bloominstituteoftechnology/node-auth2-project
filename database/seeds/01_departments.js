@@ -3,7 +3,7 @@ exports.seed = function (knex) {
 
   const departments = [
     {
-      name: "finance", // will get id 1
+      name: "Admin", // will get id 1
     },
     {
       name: "sales", // will get id 2
@@ -14,6 +14,9 @@ exports.seed = function (knex) {
     {
       name: "HR", // will get id 4
     },
+    { 
+      name: "finance", // will get id 5
+    }
   ];
 
   return knex("departments")
