@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <Router>
+            <SignOut/>
       <div className="App">
 
         <Switch>
@@ -21,7 +22,7 @@ function App() {
           <Route path="/signup" component={SignUp} />
         </Switch>
       </div>
-      <SignOut/>
+
     </Router>
   );
 }

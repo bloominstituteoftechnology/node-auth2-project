@@ -11,7 +11,7 @@ export default function SignOut() {
 	}
 
 	return (
-		<button onClick={logOut}>Sign Out</button>
+		<button type="button" class="btn btn-info" onClick={logOut}>Sign Out</button>
 
 	);
 }

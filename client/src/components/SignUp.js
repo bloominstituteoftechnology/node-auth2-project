@@ -70,7 +70,7 @@ class SignUp extends React.Component {
             <Dropdown.Item eventKey="4">HR</Dropdown.Item>
             <Dropdown.Item eventKey="5">Finance</Dropdown.Item>
           </DropdownButton>
-          <button>Sign Up</button>
+          <button type="button" class="btn btn-primary">Sign Up</button>
         </form>
       </div>
     );
