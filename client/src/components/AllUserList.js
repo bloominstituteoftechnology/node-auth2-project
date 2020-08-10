@@ -1,7 +1,7 @@
 import React from "react";
 import axiosWithAuth from "../utils/axiosWithAuth";
 
-class UserList extends React.Component {
+class AllUserList extends React.Component {
   state = {
     userList: []
   };
@@ -14,7 +14,7 @@ class UserList extends React.Component {
     axiosWithAuth()
       .get("/users/all")
       .then(res => {
-        console.log("ea: UserList.js getData results:", res.data);
+       // console.log("ea: UserList.js getData results:", res.data);
         this.setState({
             userList: res.data
         })
@@ -27,7 +27,7 @@ class UserList extends React.Component {
 
 
   render() {
-      console.log("ea, UserList",this.state.userList)
+      //console.log("ea, UserList",this.state.userList)
     return (
       <div className="user-list">
         {this.state.userList.map(user => {
@@ -43,4 +43,4 @@ class UserList extends React.Component {
   }
 }
 
-export default UserList;
+export default AllUserList;

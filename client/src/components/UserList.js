@@ -14,7 +14,7 @@ class AllUserList extends React.Component {
     axiosWithAuth()
       .get("/users")
       .then(res => {
-        console.log("ea: UserList.js getData results:", res.data);
+        //console.log("ea: UserList.js getData results:", res.data);
         this.setState({
             userList: res.data
         })
@@ -27,7 +27,7 @@ class AllUserList extends React.Component {
 
 
   render() {
-      console.log("ea, UserList",this.state.userList)
+      //console.log("ea, UserList",this.state.userList)
     return (
       <div className="user-list">
         {this.state.userList.map(user => {

@@ -6,6 +6,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp"
 import AllUserList from "./components/AllUserList"
 import UserList from "./components/UserList";
+import SignOut from "./components/SignOut";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/signup" component={SignUp} />
         </Switch>
       </div>
+      <SignOut/>
     </Router>
   );
 }
