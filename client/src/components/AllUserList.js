@@ -3,7 +3,7 @@ import axiosWithAuth from "../utils/axiosWithAuth";
 
 class AllUserList extends React.Component {
   state = {
-    userList: []
+    userList: [],
   };
 
   componentDidMount() {
@@ -13,30 +13,28 @@ class AllUserList extends React.Component {
   getData = () => {
     axiosWithAuth()
       .get("/users/all")
-      .then(res => {
-       // console.log("ea: UserList.js getData results:", res.data);
+      .then((res) => {
+        // console.log("ea: UserList.js getData results:", res.data);
         this.setState({
-            userList: res.data
-        })
+          userList: res.data,
+        });
       })
-      .catch(err =>
+      .catch((err) =>
         console.error("ea: UserList.js: getData: err.message: ", err.message)
       );
   };
 
-
-
   render() {
-      //console.log("ea, UserList",this.state.userList)
+    //console.log("ea, UserList",this.state.userList)
     return (
       <div className="user-list">
-        {this.state.userList.map(user => {
-            return(
-                <div className="user" key={user.id}>
-                    <h1>{user.username}</h1>
-                    <p>{user.department}</p>
-                </div>
-            )
+        {this.state.userList.map((user) => {
+          return (
+            <div className="user" key={user.id}>
+              <h1>{user.username}</h1>
+              <p>{user.department}</p>
+            </div>
+          );
         })}
       </div>
     );
