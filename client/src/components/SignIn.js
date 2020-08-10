@@ -2,7 +2,7 @@ import React from "react";
 
 import axiosWithAuth from "../utils/axiosWithAuth";
 
-class Login extends React.Component {
+class SignIn extends React.Component {
   state = {
     credentials: {
       username: "",
@@ -19,24 +19,24 @@ class Login extends React.Component {
     });
   };
 
-  login = e => {
+  signin = e => {
     e.preventDefault();
     axiosWithAuth()
       .post("/login", this.state.credentials)
       .then(res => {
         localStorage.setItem("token", res.data.token);
-        this.props.history.push("/protected");
-       console.log("ea: Login.js: login: SUCCESS! results:", res);
+        this.props.history.push("/users");
+       console.log("ea: Signin.js: signin: SUCCESS! results:", res);
       })
       .catch(err =>
-        console.error("ea: Login.js: login: err.message: ", err.message)
+        console.error("ea: Signin.js: signin: err.message: ", err.message)
       );
   };
 
   render() {
     return (
       <div>
-        <form onSubmit={this.login}>
+        <form onSubmit={this.signin}>
           <input
             type="text"
             name="username"
@@ -49,11 +49,11 @@ class Login extends React.Component {
             value={this.state.credentials.password}
             onChange={this.handleChange}
           />
-          <button>Log in</button>
+          <button>Sign in</button>
         </form>
       </div>
     );
   }
 }
 
-export default Login;
+export default SignIn;
