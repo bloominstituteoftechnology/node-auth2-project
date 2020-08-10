@@ -9,7 +9,10 @@ module.exports = {
 };
 
 function find(dep) {
-  return db("users as u").select("u.id", "u.username").orderBy("id").where({department: dep});
+  return db("users as u")
+    .select("u.id", "u.username", "d.name as department")
+    .join("departments as d", "u.department", "d.id")
+    .where({ department: dep });
 }
 
 function findAll() {
@@ -17,7 +20,6 @@ function findAll() {
     .join("departments as d", "u.department", "d.id")
     .select("u.id", "u.username", "d.name as department");
 }
-
 
 function findBy(filter) {
   return db("users").where(filter).orderBy("id");

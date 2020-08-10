@@ -34,6 +34,7 @@ class AllUserList extends React.Component {
             return(
                 <div className="user" key={user.id}>
                     <h1>{user.username}</h1>
+                    <p>{user.department}</p>
                 </div>
             )
         })}
