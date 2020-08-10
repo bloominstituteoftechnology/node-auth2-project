@@ -25,7 +25,8 @@ class SignIn extends React.Component {
       .post("/login", this.state.credentials)
       .then(res => {
         localStorage.setItem("token", res.data.token);
-        this.props.history.push("/users");
+        localStorage.setItem("login", true);
+        this.props.history.push("/");
        console.log("ea: Signin.js: signin: SUCCESS! results:", res);
       })
       .catch(err =>
@@ -37,19 +38,21 @@ class SignIn extends React.Component {
     return (
       <div>
         <form onSubmit={this.signin}>
+          <label>Username
           <input
             type="text"
             name="username"
             value={this.state.credentials.username}
             onChange={this.handleChange}
-          />
+          /></label>
+          <label>Password
           <input
             type="password"
             name="password"
             value={this.state.credentials.password}
             onChange={this.handleChange}
-          />
-          <button type="button" class="btn btn-primary">Sign in</button>
+          /></label>
+          <button type="submit" className="btn btn-primary">Sign in</button>
         </form>
       </div>
     );
