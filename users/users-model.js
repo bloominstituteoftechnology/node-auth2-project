@@ -13,7 +13,9 @@ function find(dep) {
 }
 
 function findAll() {
-  return db("users as u").select("u.id", "u.username", "u.department").orderBy("id");
+  return db("users as u")
+    .join("departments as d", "u.department", "d.id")
+    .select("u.id", "u.username", "d.name as department");
 }
 
 
