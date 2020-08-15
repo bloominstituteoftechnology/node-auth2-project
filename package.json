@@ -1,0 +1,39 @@
+{
+  "name": "node-auth2-project",
+  "version": "1.0.0",
+  "description": "Node Auth 2",
+  "main": "index.js",
+  "scripts": {
+    "server": "nodemon",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sheikh-A/node-auth2-project.git"
+  },
+  "keywords": [],
+  "author": "Ali Sheikh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sheikh-A/node-auth2-project/issues"
+  },
+  "homepage": "https://github.com/Sheikh-A/node-auth2-project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-session-knex": "^1.7.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.4",
+    "knex-cleaner": "^1.3.0",
+    "pg": "^8.3.0",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.4"
+  }
+}
