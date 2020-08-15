@@ -1,0 +1,23 @@
+{
+  "name": "node-auth2-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/samir-hub/node-auth2-project.git",
+  "author": "Samir Lilienfeld <samirlilienfeld@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js"
+},
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.0",
+    "sqlite3": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
