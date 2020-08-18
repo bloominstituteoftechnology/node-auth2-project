@@ -31,7 +31,28 @@ Use **JSON Web Tokens** to keep users authenticated across requests.
 | ------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. **Hash the password** before saving the user to the database.                                                                                                                            |
 | POST   | /api/login    | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client. If login fails, respond with the correct status code and the message: 'You shall not pass!' |
-| GET    | /api/users    | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in respond with the correct status code and the message: 'You shall not pass!'.                                                                  |
+| GET    | /api/users    | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in respond with the correct status code and the message: 'You shall not pass!'.  
+
+## TODO
+[x] - npm init
+[x] - npm i
+[x] - npm install -g knex
+[x] - npm install knex sqlite3
+[x] - npm knex init
+[x] - add script tag
+[x] - add useNullAsDefault: true
+[x] - create server.js
+[x] - cerate index.js
+
+[x] - knex migrate:make create-accounts
+[x] - set-up tables
+
+
+[x] set-up users model
+[x] - set-up useres router     
+
+[] setup auth-router
+[] set-up restricted middleware                                                           |
 
 ## Stretch Problem
 
