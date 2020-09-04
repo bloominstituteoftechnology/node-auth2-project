@@ -1,0 +1,32 @@
+{
+  "name": "auth2-project",
+  "version": "1.0.0",
+  "description": "- Authentication.\r - Express Middleware.\r - JSON Web Tokens (JWTs).\r - Hashing Passwords.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon --require dotenv/config index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guivecchi12/node-auth2-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guivecchi12/node-auth2-project/issues"
+  },
+  "homepage": "https://github.com/guivecchi12/node-auth2-project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-session-knex": "^1.7.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "helmet": "^4.1.0",
+    "knex": "^0.21.5",
+    "nodemon": "^2.0.4",
+    "sqlite3": "^5.0.0"
+  }
+}
