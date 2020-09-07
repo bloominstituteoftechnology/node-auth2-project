@@ -5,14 +5,14 @@ const cookieParser = require("cookie-parser")
 const usersRouter = require("./users/users-router")
 
 const server = express()
-const port = process.env.PORT || 5000
+const port = 5000
 
 server.use(helmet())
 server.use(cors())
 server.use(express.json())
 server.use(cookieParser())
 
-server.use(usersRouter)
+server.use("/api",usersRouter)
 server.use((err, req, res, next) => {
 	console.log(err)
 	

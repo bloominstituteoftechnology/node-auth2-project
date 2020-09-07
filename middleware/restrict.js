@@ -1,12 +1,23 @@
 const jwt = require("jsonwebtoken")
+const { findBy } = require("../users/users-model")
 
 function restrict(role) {
 	// use a scale, since admins should still be able to access basic endpoints
-	const roles = ["basic", "admin", "super_admin"]
+    // const roles = ["student", "finance", "HR"]
+
+    // if (role === "student"){
+    //     value = 0
+    // }
+    // else if(role === "admin"){
+    //     value = 1
+    // }
+    // else if (role === "super_admin"){
+    //     value = 2
+    // }
 
 	return async (req, res, next) => {
 		const authError = {
-			message: "Invalid credentials",
+			message: "You shall not pass!",
 		}
 
 		try {
@@ -17,16 +28,9 @@ function restrict(role) {
 			}
 
 			// decode the token, re-sign the payload, and check if signature is valid
-			jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+			jwt.verify(token, "Super safe", (err, decoded) => {
 				if (err) {
 					return res.status(401).json(authError)
-				}
-
-				// make sure the user's role is above or the same as the required role
-				if (role && roles.indexOf(decoded.userRole) < roles.indexOf(role)) {
-					return res.status(403).json({
-						message: "You are not allowed here",
-					})
 				}
 
 				// we know the user is authorized at this point,

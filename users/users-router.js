@@ -6,17 +6,17 @@ const restrict = require("../middleware/restrict")
 
 const router = express.Router()
 
-router.get("/users", restrict("admin"), async (req, res, next) => {
+router.get("/users", restrict("student"), async (req, res, next) => {
 	try {
-		res.json(await Users.find())
+		res.json(await Users.findBy("admin"))
 	} catch(err) {
 		next(err)
 	}
 })
 
-router.post("/users", async (req, res, next) => {
+router.post("/register", async (req, res, next) => {
 	try {
-		const { username, password } = req.body
+		const { username, password, department } = req.body
 		const user = await Users.findBy({ username }).first()
 
 		if (user) {
@@ -28,7 +28,8 @@ router.post("/users", async (req, res, next) => {
 		const newUser = await Users.add({
 			username,
 			// hash the password with a time complexity of "14"
-			password: await bcrypt.hash(password, 14),
+            password: await bcrypt.hash(password, 14),
+            department
 		})
 
 		res.status(201).json(newUser)
@@ -40,35 +41,43 @@ router.post("/users", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
 	try {
 		const { username, password } = req.body
-		const user = await Users.findBy({ username }).first()
+        const user = await Users.findBy({ username }).first()
 		
-		if (!user) {
-			return res.status(401).json({
-				message: "Invalid Credentials",
+		if (user) {
+            // hash the password again and see if it matches what we have in the database
+            const passwordValid = await bcrypt.compare(password, user.password)
+
+            if (passwordValid){
+
+                const role = await Users.findRole({ username }).first()
+
+
+                // generate a new JSON web token
+                const token = jwt.sign({
+                userID: user.id,
+                department: role, 
+                }, "Super safe")
+                // send the token back as a cookie
+                res.cookie("token", token)
+                
+                res.json({
+                    message: `Welcome ${user.username}!`,
+                    token: token
+                })
+            }
+            else{
+                return res.status(401).json({
+                    message: "You shall not pass!",
+                })
+            }
+        }
+        
+        else{
+            return res.status(401).json({
+				message: "You shall not pass!",
 			})
-		}
+        }
 
-		// hash the password again and see if it matches what we have in the database
-		const passwordValid = await bcrypt.compare(password, user.password)
-
-		if (!passwordValid) {
-			return res.status(401).json({
-				message: "Invalid Credentials",
-			})
-		}
-
-		// generate a new JSON web token
-		const token = jwt.sign({
-			userID: user.id,
-			userRole: "admin", // this value would normally come from the database
-		}, process.env.JWT_SECRET)
-
-		// send the token back as a cookie
-		res.cookie("token", token)
-
-		res.json({
-			message: `Welcome ${user.username}!`,
-		})
 	} catch(err) {
 		next(err)
 	}

@@ -11,13 +11,19 @@ function find() {
 
 function findBy(filter) {
 	return db("users")
-		.select("id", "username", "password")
+		.select("id", "username", "department")
 		.where(filter)
+}
+
+function findRole(user){
+    return db("users")
+        .select("department")
+        .where(user)
 }
 
 function findById(id) {
 	return db("users")
-		.select("id", "username")
+		.select("id", "username", "department")
 		.where({ id })
 		.first()
 }
@@ -26,5 +32,6 @@ module.exports = {
 	add,
 	find,
 	findBy,
-	findById,
+    findById,
+    findRole
 }
