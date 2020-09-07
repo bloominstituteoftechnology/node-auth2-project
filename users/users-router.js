@@ -7,8 +7,9 @@ const restrict = require("../middleware/restrict")
 const router = express.Router()
 
 router.get("/users", restrict("student"), async (req, res, next) => {
+    const department = "student"
 	try {
-		res.json(await Users.findBy("admin"))
+		res.json(await Users.findBy({department}))
 	} catch(err) {
 		next(err)
 	}
@@ -41,12 +42,12 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
 	try {
 		const { username, password } = req.body
-        const user = await Users.findBy({ username }).first()
+        const user = await Users.findBy( {username} ).first()
 		
 		if (user) {
             // hash the password again and see if it matches what we have in the database
             const passwordValid = await bcrypt.compare(password, user.password)
-
+            
             if (passwordValid){
 
                 const role = await Users.findRole({ username }).first()

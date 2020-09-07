@@ -11,8 +11,8 @@ function find() {
 
 function findBy(filter) {
 	return db("users")
-		.select("id", "username", "department")
-		.where(filter)
+		.select("id", "username", "password", "department")
+        .where(filter)
 }
 
 function findRole(user){
