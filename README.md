@@ -1,23 +1,22 @@
-# Authentication using JSON Web Tokens (JWTs)
+# Authentication using JSON Web Tokens (JWTs) Module Project
 
-## Topics
-
-- Authentication.
-- Express Middleware.
-- JSON Web Tokens (JWTs).
-- Hashing Passwords.
-
-## Description
+## Introduction
 
 In this project we'll implement a full authentication workflow (register/login/logout/restrict endpoint) using `Node.js`, `Express`, `SQLite` and `JSON Web Tokens` on the server.
 
-### Download Project Files
+## Instructions
 
-- **Fork** and **Clone** this repository.
-- **CD into the folder** where you cloned the repository.
-- Do your magic!
+### Task 1: Set Up The Project With Git
 
-## Assignment
+Follow these steps to set up and work on your project:
+
+- [ ] Create a forked copy of this project.
+- [ ] Clone your OWN version of the repository (Not Lambda's by mistake!).
+- [ ] Create a new branch: git checkout -b `<firstName-lastName>`.
+- [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
+- [ ] Push commits: git push -u origin `<firstName-lastName>`.
+
+### Task 2: Minimum Viable Product
 
 Use Node.js, Express and Knex to build an API that provides _Authentication_ functionality using SQLite to store _User_ information.
 
@@ -33,7 +32,7 @@ Use **JSON Web Tokens** to keep users authenticated across requests.
 | POST   | /api/login    | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client. If login fails, respond with the correct status code and the message: 'You shall not pass!' |
 | GET    | /api/users    | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in respond with the correct status code and the message: 'You shall not pass!'.                                                                  |
 
-## Stretch Problem
+### Task 3: Stretch Goals
 
 - add the code necessary so that when a client makes a `GET` request to `/api/users` the server only returns documents with the `same department` as the logged in user. For example if the logged in user belongs to the finance department, then only users with the _finance_ department should be returned; if the logged in user is in _sales_ only users on the sales department should be returned.
 - implement a React client:
@@ -44,3 +43,9 @@ Use **JSON Web Tokens** to keep users authenticated across requests.
   - the `/users` route should read the token from local storage and make a `GET` request to the `/api/users` route on the API attaching the token as the value of the `Authorization` header.
   - provide a button to `sign out` that will remove the token from local storage.
 - add any extra functionality to make the application more user friendly like showing a message and redirecting to `/signin` if an unauthenticated user tries to access the list of users in the `/users` route.
+
+## Submission format
+
+Follow these steps for completing your project.
+
+- [ ] Submit a pull request to merge <firstName-lastName> Branch into master (student's  Repo). **Please don't merge your own pull request**
