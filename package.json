@@ -1,0 +1,28 @@
+{
+  "name": "auth2-project",
+  "version": "1.0.0",
+  "description": "In this project we'll implement a full authentication workflow (register/login/logout/restrict endpoint) using `Node.js`, `Express`, `SQLite` and `JSON Web Tokens` on the server.",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.6",
+    "node": "^14.13.0",
+    "sqlite": "^4.0.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AesonJohnson/node-auth2-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AesonJohnson/node-auth2-project/issues"
+  },
+  "homepage": "https://github.com/AesonJohnson/node-auth2-project#readme"
+}
