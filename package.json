@@ -4,7 +4,7 @@
   "description": "In this project we'll implement a full authentication workflow (register/login/logout/restrict endpoint) using `Node.js`, `Express`, `SQLite` and `JSON Web Tokens` on the server.",
   "main": "index.js",
   "scripts": {
-    "server":"nodemon index.js",
+    "server": "nodemon index.js",
     "start": "node index.js"
   },
   "repository": {
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/lizhagag/node-auth2-project#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "knex": "^0.21.9",
     "nodemon": "^2.0.6",
