@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-
+const bcrypt = require('bcryptjs')
 const Users = require('./users-model')
 
 router.get("/users", async (req,res,next) => {
@@ -12,7 +12,7 @@ router.get("/users", async (req,res,next) => {
     }
 })
 
-router.post("/users", async (req,res,next) => {
+router.post("/register", async (req,res,next) => {
     try {
         const { username, password } = req.body
 		const user = await Users.findBy({ username }).first()
@@ -26,11 +26,38 @@ router.post("/users", async (req,res,next) => {
 
         const addUser = await Users.add({
             username,
-            password
+            password: await bcrypt.hash(password, 14)
         })
 
 
         res.status(201).json(addUser)
+    } catch(err) {
+        next(err)
+    }
+})
+
+router.post('/login', async (req,res,next) => {
+    try {
+        const { username, password } = req.body
+		const user = await Users.findBy({ username }).first()
+        
+        if(!user) {
+            return res.status(401).json({
+                message:"invalid user"
+            })
+        }
+        
+        const validPassword = await bcrypt.compare(password, user.password)
+
+        if(!validPassword) {
+            return res.status(401).json({
+                message:"invalid"
+            })
+        }
+
+        res.json({
+            message: `Welcome ${user.username}`
+        })
     } catch(err) {
         next(err)
     }

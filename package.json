@@ -20,6 +20,7 @@
   "homepage": "https://github.com/lizhagag/node-auth2-project#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
     "knex": "^0.21.9",
     "nodemon": "^2.0.6",
