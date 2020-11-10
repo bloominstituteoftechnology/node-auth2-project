@@ -30,7 +30,7 @@ router.post("/register", (req, res) => {
       });
   } else {
     res.status(400).json({
-      message: "please provide username and password and the password shoud be alphanumeric",
+      message: "please provide username and password",
     });
   }
 });
@@ -67,7 +67,7 @@ function makeToken(user) {
     foo: 'bar',
   };
   const options = {
-    expiresIn: '25 seconds',
+    expiresIn: '250 seconds',
   };
   return jwt.sign(payload, jwtSecret, options);
 }

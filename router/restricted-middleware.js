@@ -1,11 +1,11 @@
 const {jwtSecret} = require('../router/secret')
-const {jwt} = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 module.exports = (req, res, next) => {
   
   const token = req.headers.authorization;
   if (!token) {
-    res.status(401).json({ message: 'we wants token' })
+    res.status(401).json({ message: 'token required' })
     return
   }
 
