@@ -16,6 +16,17 @@ Follow these steps to set up and work on your project:
 - [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
 - [ ] Push commits: git push -u origin `<firstName-lastName>`.
 
+Setup:
+- [] Dependencies
+- [] Server
+- [] Schema
+
+MVP:
+- [] Hashing 
+- [] JWT token for login
+- [] Reading the token (restriction-mw)
+- [] Restricting access further by only allowing roles that match role in token
+
 ### Task 2: Minimum Viable Product
 
 Use Node.js, Express and Knex to build an API that provides _Authentication_ functionality using SQLite to store _User_ information.
