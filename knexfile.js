@@ -4,7 +4,7 @@ module.exports = {
 
   development: {
     client: 'sqlite3',
-    useNullAsDefault: 'true',
+    useNullAsDefault: true,
     connection: {
       filename: './database/users.db3'
     },
@@ -13,7 +13,7 @@ module.exports = {
         conn.run('PRAGMA foreign_keys = ON', done);
       }
     },
-    migration: {
+    migrations: {
       directory: './database/migrations'
     }, 
     seeds: {
