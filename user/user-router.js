@@ -15,7 +15,7 @@ router.post("/login", async (req, res, next) => {
 			})
 		}
 
-		// hash the password again and see if it matches what we have in the database
+		
 		const passwordValid = await bcrypt.compare(password, user.password)
 
 		if (!passwordValid) {
@@ -24,13 +24,13 @@ router.post("/login", async (req, res, next) => {
 			})
 		}
 
-		// generate and sign a new JSON web token with some user details
+		
 		const token = jwt.sign({
 			userID: user.id,
 			userName: user.username,
 		}, process.env.SECRET)
 
-		// tell the client to save this token in its cookie jar
+		
 		res.cookie("token", token)
 
 		res.json({
@@ -39,6 +39,15 @@ router.post("/login", async (req, res, next) => {
 	} catch(err) {
 		next(err)
 	}
+})
+
+router.get('/users', async (req,res,next) => {
+    try {
+        res.json(await Users.findUser())
+
+    } catch(err) {
+        next(err)
+    }
 })
 
 router.post('/login', async (req,res,next) => {
