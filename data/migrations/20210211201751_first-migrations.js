@@ -27,3 +27,5 @@ exports.down = function(knex) {
     return knex.schema.dropTableIfExists("roles").dropTableIfExists("users");
   
 };
+
+//still need to make migrations. Need to confirm what the data should look like.
