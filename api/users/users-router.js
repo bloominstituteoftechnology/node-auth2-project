@@ -11,7 +11,7 @@ router.get('/', restricted, checkRole, (req, res) =>{
       res.status(200).json(users)
     })
     .catch((err) =>{
-        res.status(500).send(err)
+        res.status(500).send({message: 'You shall nOt pass!'})
     })
     
 })
