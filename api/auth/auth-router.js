@@ -12,7 +12,6 @@ router.post('/register', (req, res) =>{
 
     if(isValid(credentials)){
         const rounds = process.env.BCRYPT_ROUNDS || 10;
-
         const hash = bcrypt.hashSync(credentials.password, rounds);
         
         credentials.password = hash;
