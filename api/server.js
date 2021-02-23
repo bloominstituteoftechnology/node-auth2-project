@@ -15,6 +15,6 @@ server.use('/api/auth', authRouter);
 
 server.get('/', (req, res) => {
     res.json({ api: 'Server is up and running!' });
-  });
+});
   
-  module.exports = server;
+module.exports = server;
