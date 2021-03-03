@@ -1,51 +1,95 @@
-# Authentication using JSON Web Tokens (JWTs) Module Project
+# Using JSON Web Tokens
 
 ## Introduction
 
-In this project we'll implement a full authentication workflow (register/login/logout/restrict endpoint) using `Node.js`, `Express`, `SQLite` and `JSON Web Tokens` on the server.
+Use `Node.js`, `Express` and `Knex` to build an API with authentication and authorization using JSON Web Tokens.
 
 ## Instructions
 
-### Task 1: Set Up The Project With Git
+### Task 1: Project Setup
 
-Follow these steps to set up and work on your project:
+There are two possible ways to submit your project. Your instructor should have communicated which method to use for this project during the Guided Project and in your cohort's Slack channel. If you are still unsure, reach out to Lambda Staff.
 
-- [ ] Create a forked copy of this project.
-- [ ] Clone your OWN version of the repository (Not Lambda's by mistake!).
-- [ ] Create a new branch: `git checkout -b <firstName-lastName>`.
-- [ ] Implement the project on your newly created `<firstName-lastName>` branch, committing changes regularly.
-- [ ] Push commits: git `push origin <firstName-lastName>`.
+#### Option A - Codegrade
+
+- [ ] Fork and clone the repository.
+- [ ] Open the assignment in Canvas and click on the "Set up git" option.
+- [ ] Follow instructions to set up Codegrade's Webhook and Deploy Key.
+- [ ] Push your first commit: `git commit --allow-empty -m "first commit" && git push`.
+- [ ] Check to see that Codegrade has accepted your git submission.
+
+#### Option B - Pull Request
+
+- [ ] Fork and clone the repository.
+- [ ] Implement your project in a `firstname-lastname` branch.
+- [ ] Create a pull request of `firstname-lastname` against your `main` branch.
+- [ ] Open the assignment in Canvas and submit your pull request.
 
 ### Task 2: Minimum Viable Product
 
-Use Node.js, Express and Knex to build an API that provides _Authentication_ functionality using SQLite to store _User_ information.
+You will complete the following tasks and do any extra wiring and package installation necessary for the app to compile and pass all tests.
 
-The user schema should include: `username`, `password` and `department`. The `department` should be a string used to group the users. No need for a `departments` table or setting up relationships.
+#### 2A - Database Access Functions
 
-Use **JSON Web Tokens** to keep users authenticated across requests.
+Write the following user access functions inside `api/users/users-model.js`:
 
-### Design and build the following endpoints
+- [ ] `find`
+- [ ] `findBy`
+- [ ] `findById`
 
-| Method | Endpoint      | Description                                                                                                                                                                                                                                                            |
-| ------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | /api/register | Creates a `user` using the information sent inside the `body` of the request. **Hash the password** before saving the user to the database.                                                                                                                            |
-| POST   | /api/login    | Use the credentials sent inside the `body` to authenticate the user. On successful login, create a new JWT with the user id as the subject and send it back to the client. If login fails, respond with the correct status code and the message: 'You shall not pass!' |
-| GET    | /api/users    | If the user is logged in, respond with an array of all the users contained in the database. If the user is not logged in respond with the correct status code and the message: 'You shall not pass!'.                                                                  |
+#### 2B - Middleware Functions
+
+Write the following auth middlewares inside `api/auth/auth-middleware.js`:
+
+- [ ] `restricted`
+- [ ] `only`
+- [ ] `checkUsernameExists`
+- [ ] `validateRoleName`
+
+#### 2C - Endpoints
+
+Authentication will be implemented using JSON Web Tokens.
+
+Write the following endpoints inside `api/auth/auth-router.js`:
+
+- [ ] `[POST] /api/auth/register`
+- [ ] `[POST] /api/auth/login`
+
+The endpoints inside `api/users/users-router.js` are built already but check them out:
+
+- [ ] `[GET] /api/users` - only users with a valid token can access
+- [ ] `[POST] /api/auth/login` - only users with a role of 'admin' can access
+
+#### 2D - Secrets File
+
+Complete the `secrets/index.js` file.
+
+#### Users Schema
+
+| field    | data type        | metadata                                      |
+| :------- | :--------------- | :-------------------------------------------- |
+| user_id  | unsigned integer | primary key, auto-increments, generated by db |
+| username | string           | required, unique                              |
+| password | string           | required                                      |
+| role_id  | unsigned integer | foreign key, required                         |
+
+#### Roles Schema
+
+| field     | data type        | metadata                                      |
+| :-------- | :--------------- | :-------------------------------------------- |
+| role_id   | unsigned integer | primary key, auto-increments, generated by db |
+| role_name | string           | required, unique                              |
+
+#### Notes
+
+- Run tests locally executing `npm test`.
+- The project comes with `migrate`, `rollback` and `seed` scripts in case you need to reset the database.
+- You are welcome to create additional files but **do not move or rename existing files** or folders.
+- Do not alter your `package.json` file except to install extra libraries or add extra scripts.
+- In your solution, it is essential that you follow best practices and produce clean and professional results.
+- Schedule time to review, refine, and assess your work.
+- Perform basic professional polishing including spell-checking and grammar-checking on your work.
 
 ### Task 3: Stretch Goals
 
-- add the code necessary so that when a client makes a `GET` request to `/api/users` the server only returns documents with the `same department` as the logged in user. For example if the logged in user belongs to the finance department, then only users with the _finance_ department should be returned; if the logged in user is in _sales_ only users on the sales department should be returned.
-- implement a React client:
-  - use `create-react-app` to generate a application to server as the client for the Web API.
-  - inside the React application add **client-side routes** and components for `signup`, `signin` and showing the `list of users` stored in the database.
-  - the `/signup` route should provide a form to gather `username`, `password` and `department` for the user and make a `POST` request to the `/api/register` route on the API. If the user is created successfully, take the returned token, save it to the browser's local storage and redirect the user to the `/users` route, where they should see the list of users.
-  - the `/signin` route should provide a form to gather `username` and `password` for the user and make a `POST` request to the `/api/login` route on the API. Upon successful login, persist the returned token to the browser's local storage and redirect the user to the `/users` route.
-  - the `/users` route should read the token from local storage and make a `GET` request to the `/api/users` route on the API attaching the token as the value of the `Authorization` header.
-  - provide a button to `sign out` that will remove the token from local storage.
-- add any extra functionality to make the application more user friendly like showing a message and redirecting to `/signin` if an unauthenticated user tries to access the list of users in the `/users` route.
-
-## Submission format
-
-Follow these steps for completing your project.
-
-- [ ] Submit a pull request to merge `<firstName-lastName>` Branch into main (student's  Repo). **Please don't merge your own pull request**
+- Build a React application that implements components to register, login and view a list of users. Gotta keep sharpening your React skills.
