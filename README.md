@@ -12,18 +12,18 @@ There are two possible ways to submit your project. Your instructor should have 
 
 #### Option A - Codegrade
 
-- [ ] Fork and clone the repository.
-- [ ] Open the assignment in Canvas and click on the "Set up git" option.
-- [ ] Follow instructions to set up Codegrade's Webhook and Deploy Key.
-- [ ] Push your first commit: `git commit --allow-empty -m "first commit" && git push`.
-- [ ] Check to see that Codegrade has accepted your git submission.
+- [X] Fork and clone the repository.
+- [X] Open the assignment in Canvas and click on the "Set up git" option.
+- [X] Follow instructions to set up Codegrade's Webhook and Deploy Key.
+- [X] Push your first commit: `git commit --allow-empty -m "first commit" && git push`.
+- [X] Check to see that Codegrade has accepted your git submission.
 
 #### Option B - Pull Request
 
-- [ ] Fork and clone the repository.
-- [ ] Implement your project in a `firstname-lastname` branch.
-- [ ] Create a pull request of `firstname-lastname` against your `main` branch.
-- [ ] Open the assignment in Canvas and submit your pull request.
+- [X] Fork and clone the repository.
+- [X] Implement your project in a `firstname-lastname` branch.
+- [X] Create a pull request of `firstname-lastname` against your `main` branch.
+- [X] Open the assignment in Canvas and submit your pull request.
 
 ### Task 2: Minimum Viable Product
 
@@ -33,18 +33,18 @@ You will complete the following tasks and do any extra wiring and package instal
 
 Write the following user access functions inside `api/users/users-model.js`:
 
-- [ ] `find`
-- [ ] `findBy`
-- [ ] `findById`
+- [X] `find`
+- [X] `findBy`
+- [X] `findById`
 
 #### 2B - Middleware Functions
 
 Write the following auth middlewares inside `api/auth/auth-middleware.js`:
 
-- [ ] `restricted`
-- [ ] `only`
-- [ ] `checkUsernameExists`
-- [ ] `validateRoleName`
+- [X] `restricted`
+- [X] `only`
+- [X] `checkUsernameExists`
+- [X] `validateRoleName`
 
 #### 2C - Endpoints
 
@@ -52,13 +52,13 @@ Authentication will be implemented using JSON Web Tokens.
 
 Write the following endpoints inside `api/auth/auth-router.js`:
 
-- [ ] `[POST] /api/auth/register`
-- [ ] `[POST] /api/auth/login`
+- [X] `[POST] /api/auth/register`
+- [X] `[POST] /api/auth/login`
 
 The endpoints inside `api/users/users-router.js` are built already but check them out:
 
-- [ ] `[GET] /api/users` - only users with a valid token can access
-- [ ] `[POST] /api/auth/login` - only users with a role of 'admin' can access
+- [X] `[GET] /api/users` - only users with a valid token can access
+- [X] `[POST] /api/auth/login` - only users with a role of 'admin' can access
 
 #### 2D - Secrets File
 
