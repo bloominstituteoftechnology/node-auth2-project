@@ -1,28 +1,54 @@
-// DO NOT CHANGE THIS FILE
-const sharedConfig = {
-  client: 'sqlite3',
-  useNullAsDefault: true,
-  migrations: {
-    directory: './data/migrations',
-  },
-  seeds: {
-    directory: './data/seeds',
-  },
-  // this enables foreign keys in SQLite
-  pool: {
-    afterCreate: (conn, done) => {
-      conn.run('PRAGMA foreign_keys = ON', done)
-    },
-  },
-}
+// Update with your config settings.
 
 module.exports = {
-  development: {
-    ...sharedConfig,
-    connection: { filename: './data/auth.db3' },
-  },
-  testing: {
-    ...sharedConfig,
-    connection: { filename: './data/testing.db3' },
-  },
-}
+	development: {
+		client: "sqlite3",
+		useNullAsDefault: true,
+		connection: {
+			filename: "./data/staff.db3",
+		},
+	},
+	migrations: {
+		directory: "./data/migrations",
+	},
+	seeds: {
+		directory: "./data/seeds",
+	},
+	pool: {
+		afterCreate: (conn, done) => {
+			// runs after a connection is made to the sqlite engine
+			conn.run("PRAGMA foreign_keys = ON", done); // turn on FK enforcement
+		},
+	},
+	staging: {
+		client: "sqlite3",
+		connection: {
+			database: "./data/staff.db3",
+			user: "username",
+			password: "password",
+		},
+		pool: {
+			min: 2,
+			max: 10,
+		},
+		migrations: {
+			tableName: "knex_migrations",
+		},
+	},
+
+	production: {
+		client: "sqlite3",
+		connection: {
+			database: "./data/staff.db3",
+			user: "username",
+			password: "password",
+		},
+		pool: {
+			min: 2,
+			max: 10,
+		},
+		migrations: {
+			tableName: "knex_migrations",
+		},
+	},
+};
