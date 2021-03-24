@@ -1,6 +1,23 @@
 const { JWT_SECRET } = require("../secrets"); // use this secret!
+const jwt = require("jsonwebtoken")
+const { findBy } = require("../users/users-model")
 
-const restricted = (req, res, next) => {
+const restricted = async (req, res, next) => {
+  try {
+    const token = req.cookies.token
+    if(!token) {
+      return res.status(401).json({ message:"token required" })
+    }
+    jwt.verify(token, JWT_SECRET, (error, decoded) => {
+      if(error) {
+        return res.status(401).json({ message: "token invalid" })
+      }
+      req.token = decoded
+    })
+
+  } catch(error) {
+    next(error)
+  }
   /*
     If the user does not provide a token in the Authorization header:
     status 401
@@ -19,6 +36,10 @@ const restricted = (req, res, next) => {
 }
 
 const only = role_name => (req, res, next) => {
+  if(!req.token.role_name || req.token.role_name !== role_name) {
+    res.status(403).json({ message: "this token is not yours" })
+  }
+  next()
   /*
     If the user does not provide a token in the Authorization header with a role_name
     inside its payload matching the role_name passed to this function as its argument:
@@ -32,7 +53,15 @@ const only = role_name => (req, res, next) => {
 }
 
 
-const checkUsernameExists = (req, res, next) => {
+const checkUsernameExists = async (req, res, next) => {
+  const {username} = req.body.username
+  const existingUser = await findBy(username)
+  if (!existingUser) {
+    return res.status(401).json({ message: "invalid credentials"})
+  } else {
+    req.existingUser = existingUser
+    next()
+  }
   /*
     If the username in req.body does NOT exist in the database
     status 401
@@ -44,6 +73,16 @@ const checkUsernameExists = (req, res, next) => {
 
 
 const validateRoleName = (req, res, next) => {
+  const role = req.body.role_name.trim()
+
+  if(!role || role.length < 1) {
+    req.role_name = "student"
+    next()
+  } else if(role === "admin") {
+    res.status(422).json({ message: "role name cannot be admin"})
+  } else if(role.length > 32) {
+    res.status(422).json({ message: "role name too long! must be less than 32 characters"})
+  }
   /*
     If the role_name in the body is valid, set req.role_name to be the trimmed string and proceed.
 
