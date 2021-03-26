@@ -17,14 +17,16 @@ router.post("/register", validateRoleName, (req, res, next) => {
       "role_name": "angel"
     }
    */
-  const {username, password, role_name} = req.body;
-  Users.add({username, password, role_name})
+  const credentials = req.body;
+  const rounds = process.env.BCRYPT_ROUNDS || 8;
+  const hash = bcryptjs.hashSync(credentials.password, rounds);
+  credentials.password = hash;
+  Users.add(credentials)
     .then(user => {
       res.status(201).json(user)
     })
     .catch(next)
 });
-
 
 router.post("/login", checkUsernameExists, (req, res, next) => {
   /**
@@ -47,6 +49,7 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
     }
    */
   const { username, password } = req.body;
+  //console.log(req.body)
   Users.findBy({username})
     .then(([user]) => {
       if (user && bcryptjs.compareSync(password, user.password)) {

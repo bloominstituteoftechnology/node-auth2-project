@@ -21,7 +21,6 @@ function find() {
   return db('users as u')
     .join('roles as r', 'u.role_id','=','r.role_id')
     .select('user_id','username','role_name');
-
 }
 
 function findBy(filter) {
@@ -56,7 +55,7 @@ function findById(user_id) {
     }
    */
     return db("users as u")
-    .join("roles as r", "u.role", "=", "r.id")
+    .join("roles as r", "u.role_id", "=", "r.role_id")
     .select("user_id", "username", "role_name")
     .where("user_id", user_id)
     .first();
