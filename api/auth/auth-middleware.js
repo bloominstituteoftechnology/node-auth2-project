@@ -44,6 +44,9 @@ const only = role_name => (req, res, next) => {
 
     Pull the decoded token from the req object, to avoid verifying it again!
   */
+  console.log(req.decodedJwt.role)
+  next()
+ //if (req.decodedJwt === role_name)
 }
 
 
@@ -55,6 +58,7 @@ const checkUsernameExists = (req, res, next) => {
       "message": "Invalid credentials"
     }
   */
+ next()
 }
 
 
@@ -77,6 +81,7 @@ const validateRoleName = (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
+ next()
 }
 
 module.exports = {
