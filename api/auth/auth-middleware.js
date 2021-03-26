@@ -53,7 +53,7 @@ const only = role_name => (req, res, next) => {
 }
 
 
-const checkUsernameExists = (req, res, next) => {
+const checkUsernameExists = async (req, res, next) => {
   /*
     If the username in req.body does NOT exist in the database
     status 401
@@ -62,16 +62,12 @@ const checkUsernameExists = (req, res, next) => {
     }
   */
  const {username} = req.body;
- Users.findBy({username})
-    .then(user => {
-      if (user.length > 0) {
-        res.status(401).json({message: "Invalid credentials"})
-      } else {
-        next()
-      }
-    }).catch(err => {
-      next()
-    })
+ const userExists = await Users.findBy({username:username});
+ if (!userExists) {
+  res.status(401).json({message: "Invalid credentials"})
+ } else {
+   next()
+ }
 }
 
 
@@ -94,19 +90,59 @@ const validateRoleName = (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
- const role_name = req.body.role_name.trim();
- if (role_name || role_name.length > 0) {
-  if (role_name === 'admin') {
-    res.status(422).json({message:"Role name can not be admin"})
-  } else if (role_name.length > 32) {
-      res.status(422).json({message: "Role name can not be longer than 32 chars"})
-  } else {
-    next()
+    const role_name = req.body.role_name;
+    if (role_name === 'student' || role_name === 'instructor') {
+      req.body.role_name.trim()
+      next();
+    } else if (!role_name || role_name.length < 1) {
+      req.body.role_name = 'student'
+      next()
+    } else if (role_name === "admin")  { 
+      res.status(422).json({
+        message: "Role name can not be admin",
+      });
+    } else if (role_name.length > 32) {
+      res.status(422).json({
+        message: "Role name can not be longer than 32 chars",
+      });
+    } else {
+      //console.log('last else')
+      req.body.role_name.trim()
+      console.log(req.body.role_name)
+      next();
+    }
   }
- } else {
-  req.role_name = 'student'
- }
-}
+ //const {role_name} = req.body;
+ //console.log(req.body)
+//  if (!role_name) {
+//   req.role_name = 'student'
+//   next()
+//  } else if (role_name.trim().length > 0) {
+//   if (role_name === 'admin') {
+//     res.status(422).json({message:"Role name can not be admin"})
+//   } else if (role_name.length > 32) {
+//       res.status(422).json({message: "Role name can not be longer than 32 chars"})
+//   } else {
+//     next()
+//   }
+//  } else {
+//   req.role_name = 'student'
+//   next()
+//  }
+//  }
+//  if (role_name.trim().length > 0) {
+//   if (role_name === 'admin') {
+//     res.status(422).json({message:"Role name can not be admin"})
+//   } else if (role_name.length > 32) {
+//       res.status(422).json({message: "Role name can not be longer than 32 chars"})
+//   } else {
+//     next()
+//   }
+//  } else {
+//   req.role_name = 'student'
+//   next()
+//  }
+// }
 
 module.exports = {
   restricted,

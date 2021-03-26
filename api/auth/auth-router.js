@@ -5,7 +5,7 @@ const Users = require('../users/users-model');
 const bcryptjs = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 
-router.post("/register", validateRoleName, (req, res, next) => {
+router.post("/register", validateRoleName, async (req, res, next) => {
   /**
     [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
 
@@ -19,7 +19,7 @@ router.post("/register", validateRoleName, (req, res, next) => {
    */
   const credentials = req.body;
   const rounds = process.env.BCRYPT_ROUNDS || 8;
-  const hash = bcryptjs.hashSync(credentials.password, rounds);
+  const hash = await bcryptjs.hashSync(credentials.password, rounds);
   credentials.password = hash;
   Users.add(credentials)
     .then(user => {
@@ -28,7 +28,7 @@ router.post("/register", validateRoleName, (req, res, next) => {
     .catch(next)
 });
 
-router.post("/login", checkUsernameExists, (req, res, next) => {
+router.post("/login", checkUsernameExists, async (req, res, next) => {
   /**
     [POST] /api/auth/login { "username": "sue", "password": "1234" }
 
@@ -48,21 +48,32 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
       "role_name": "admin" // the role of the authenticated user
     }
    */
-  const { username, password } = req.body;
-  //console.log(req.body)
-  Users.findBy({username})
-    .then(([user]) => {
-      if (user && bcryptjs.compareSync(password, user.password)) {
-        const token = buildToken(user);
+    const { username, password } = req.body;
+    const [User] = await Users.findBy({username:username})
+
+    if (User && bcryptjs.compareSync(password, User.password)) {
+      const token = buildToken(User);
         res.status(200).json({
-          message: `${user.username} is back!`,
+          message: `${User.username} is back!`,
           token: token
       })
-    }}
-    )
-    .catch(err => {
-      res.status(500).json({ message: err.message });
-    })
+    } else {
+      res.status(401).json({ message: "invalid credentials" });
+    }
+
+  // Users.findBy({username})
+  //   .then(([user]) => {
+  //     if (user && bcryptjs.compareSync(password, user.password)) {
+  //       const token = buildToken(user);
+  //       res.status(200).json({
+  //         message: `${user.username} is back!`,
+  //         token: token
+  //     })
+  //   }}
+  //   )
+  //   .catch(err => {
+  //     res.status(500).json({ message: err.message });
+  //   })
 });
 
 
