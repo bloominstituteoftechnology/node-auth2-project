@@ -28,7 +28,7 @@ router.get("/", restricted, (req, res, next) => { // done for you
 /**
   [GET] /api/users/:user_id
 
-  This endpoint is RESTRICTED: only users with role 'admin'
+  This endpoint is RESTRICTED: only authenticated users with role 'admin'
   should have access.
 
   response:
