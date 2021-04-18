@@ -1,5 +1,7 @@
 # Using JSON Web Tokens
 
+<!-- change for initial commit -->
+
 ## Introduction
 
 Use `Node.js`, `Express` and `Knex` to build an API with authentication and authorization using JSON Web Tokens.
