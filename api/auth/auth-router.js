@@ -1,42 +1,56 @@
 const router = require("express").Router();
 const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
-const { JWT_SECRET } = require("../secrets"); // use this secret!
+const { JWT_SECRET } = require("../secrets");
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+const { add, findBy } = require("../users/users-model")
 
-router.post("/register", validateRoleName, (req, res, next) => {
-  /**
-    [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
+//add validateRoleName
+router.post("/register", validateRoleName(), checkUsernameExists(), async (req, res, next) => {
+  try {
+    const { username, password, role_name } = req.body
+   
+    const newUser = await add({
+      username: username,
+      password: await bcrypt.hash(
+        password, 
+        parseInt(process.env.BCRYPT_TIME_COMPLEXITY)
+      ),
+      role_name: role_name
+    })
 
-    response:
-    status 201
-    {
-      "user"_id: 3,
-      "username": "anna",
-      "role_name": "angel"
-    }
-   */
+    res.status(201).json(newUser)
+  } catch(err) {
+      next(err)
+  }
 });
 
 
-router.post("/login", checkUsernameExists, (req, res, next) => {
-  /**
-    [POST] /api/auth/login { "username": "sue", "password": "1234" }
+router.post("/login", checkUsernameExists(), async (req, res, next) => {
+  try {
+    const { username, password } = req.body
+    const user = await findBy({ username })
 
-    response:
-    status 200
-    {
-      "message": "sue is back!",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ETC.ETC"
+    const passwordValid = await bcrypt.compare(password, user.password)
+    if(!passwordValid){
+      return res.status(401).json({
+        message: "Invalid credentials"
+      })
     }
+    
+    const token = jwt.sign({
+      subject: user.user_id,
+      username: user.username,
+      role_name: user.role_name
+    }, JWT_SECRET)
 
-    The token must expire in one day, and must provide the following information
-    in its payload:
-
-    {
-      "subject"  : 1       // the user_id of the authenticated user
-      "username" : "bob"   // the username of the authenticated user
-      "role_name": "admin" // the role of the authenticated user
-    }
-   */
+    res.cookie("token", token)
+    res.status(200).json({
+      message: `${user.username} is back!`,
+    })
+  } catch(err) {
+      next(err)
+  }
 });
 
 module.exports = router;
