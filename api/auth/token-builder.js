@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../secrets');
 
 function tokenBuilder(user) { // { id, username, role }
-    console.log(user)
   const payload = {
     subject: user.user_id,
     username: user.username,

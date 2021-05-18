@@ -4,14 +4,15 @@ const User = require('../users/users-model')
 const bcrypt = require('bcryptjs')
 const buildToken = require('./token-builder')
 
-router.post("/register", (req, res, next) => {
-  const {username, password, role_name} = req.body
-  const hash = bcrypt.hashSync(password, 8);
-  User.add({username, password: hash, role_name})
+router.post("/register",checkUsernameExists,  validateRoleName, (req, res, next) => {
+  let user = req.body
+  const hash = bcrypt.hashSync(user.password, 8);
+  const role = user.role_name || 'student'
+  user.password = hash
+  user.role_name = role
+  User.add(user)
     .then(saved => {
-      res.status(201).json({
-        message: `great to have you, ${saved.username}`
-      })
+      res.status(201).json(saved)
     })
     .catch(next)
 });
