@@ -4,10 +4,8 @@ const { restricted, only } = require("../auth/auth-middleware.js");
 
 /**
   [GET] /api/users
-
   This endpoint is RESTRICTED: only authenticated clients
   should have access.
-
   response:
   status 200
   [
@@ -27,10 +25,8 @@ router.get("/", restricted, (req, res, next) => { // done for you
 
 /**
   [GET] /api/users/:user_id
-
   This endpoint is RESTRICTED: only authenticated users with role 'admin'
   should have access.
-
   response:
   status 200
   [
