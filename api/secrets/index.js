@@ -6,6 +6,9 @@
   If no fallback is provided, TESTS WON'T WORK and other
   developers cloning this repo won't be able to run the project as is.
  */
-module.exports = {
-
-}
+  module.exports = {
+    JWT_SECRET: process.env.JWT_SECRET || 'shh',
+    API_SECRET: process.env.API_SECRET || 'api secret',
+    PORT: process.env.PORT || 5000,
+  }
+  
