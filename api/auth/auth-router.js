@@ -3,21 +3,29 @@ const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
 const { JWT_SECRET } = require("../secrets"); // use this secret!
 
 router.post("/register", validateRoleName, (req, res, next) => {
-  /**
-    [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
-
-    response:
-    status 201
-    {
-      "user"_id: 3,
-      "username": "anna",
-      "role_name": "angel"
-    }
-   */
+  const { username, password, role_name } = req.body
+  const hash = bcrypt.hashSync(
+    password,
+    8,
+    )
+    User.add({ username, password: hash, role_name})
+    .then(saved => {
+      res.status(201).json(saved)
+    })
+    .catch(next)
+  
 });
 
 
 router.post("/login", checkUsernameExists, (req, res, next) => {
+  const {password, username} = req.body;
+  if (bcrypt.compareSync(password, req.user.password)) {
+   req.session.user = req.user
+   res.json({message: `${req.user.username} is back!`, status: 200})
+  } else {
+    next({ status: 401, message: 'Invalid credentials'})
+  }
+  
   /**
     [POST] /api/auth/login { "username": "sue", "password": "1234" }
 
