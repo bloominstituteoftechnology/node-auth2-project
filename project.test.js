@@ -25,6 +25,7 @@ describe('server.js', () => {
   describe('[POST] /api/auth/login', () => {
     it('[1] responds with the correct message on valid credentials', async () => {
       const res = await request(server).post('/api/auth/login').send({ username: 'bob', password: '1234' })
+      console.log(`Problem 1: ${res.body.message}`)
       expect(res.body.message).toMatch(/bob is back/i)
     }, 500)
     it('[2] responds with the correct status and message on invalid credentials', async () => {
