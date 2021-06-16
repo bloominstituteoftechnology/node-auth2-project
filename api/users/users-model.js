@@ -1,3 +1,4 @@
+const dbConfig = require('../../data/db-config.js');
 const db = require('../../data/db-config.js');
 
 function find() {
@@ -18,6 +19,16 @@ function find() {
       }
     ]
    */
+  /*
+  select
+  user_id,
+  username,
+  role_name from users 
+  join roles on
+  users.role_id = roles.role_id;
+  */
+ return db('users')
+    .join('roles','users.role_id', 'roles.rold_id')
 }
 
 function findBy(filter) {
