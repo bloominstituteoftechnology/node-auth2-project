@@ -1,7 +1,7 @@
 const db = require('../../data/db-config.js');
 
-function find() {
-  /**
+
+  /**[x]
     You will need to join two tables.
     Resolves to an ARRAY with all users.
 
@@ -18,10 +18,24 @@ function find() {
       }
     ]
    */
+
+async function find(){
+  const users = await db
+            .select([
+              'users.*',
+              'roles.*'
+            ])
+            .from('users', 'roles')
+            .join('role_id')
+          return users
 }
 
-function findBy(filter) {
-  /**
+
+
+
+
+
+  /**[x]
     You will need to join two tables.
     Resolves to an ARRAY with all users that match the filter condition.
 
@@ -34,7 +48,19 @@ function findBy(filter) {
       }
     ]
    */
+
+async function findBy(role_name) { 
+  const roleName = await db("roles")
+      .innerJoin("users")
+      .where("users.role_name", "roles.role_name")
+      .select("users.role_name", "roles.role_name")
+      
+      return roleName;
 }
+
+
+
+
 
 function findById(user_id) {
   /**
