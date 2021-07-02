@@ -62,7 +62,7 @@ async function findBy(role_name) {
 
 
 
-function findById(user_id) {
+
   /**
     You will need to join two tables.
     Resolves to the user with the given user_id.
@@ -73,7 +73,35 @@ function findById(user_id) {
       "role_name": "instructor"
     }
    */
+
+async function findById(user_id) { 
+  const currentUser = await db("users")
+      .leftjoin("roles.role_id")
+      .where("users.user_id", user_id)
+      
+    let returnedObject = {
+      user_id: currentUser[0].user_id,
+      username: currentUser[0].username,
+      role_name: currentUser[0].role_name,
+      
+    } 
+      if(currentUser[0].user_id){
+        returnedObject.users = thisUser.map(oneUser => {
+          return{
+            user_id: currentUser[0].user_id,
+            username: currentUser[0].username,
+            role_name: currentUser[0].role_name,
+          }
+        })
+      
+    }
+
+    return returnedObject; 
 }
+////Don't know how to get this one working
+
+
+
 
 /**
   Creating a user requires a single insert (into users) if the role record with the given
