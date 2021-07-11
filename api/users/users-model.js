@@ -18,6 +18,10 @@ function find() {
       }
     ]
    */
+  return db('users as u')
+      .select('u.user_id as user_id', 'u.username as username', 'r.role_name as role_name')
+      .innerJoin("roles as r", "r.role_id", "u.role_id")
+
 }
 
 function findBy(filter) {
@@ -34,21 +38,29 @@ function findBy(filter) {
       }
     ]
    */
+  return db('users as u')
+      .select('u.user_id as user_id', 'u.username as username', 'u.password as password', 'r.role_name as role_name')
+      .innerJoin("roles as r", "r.role_id", "u.role_id")
+      .where(filter)
 }
 
 function findById(user_id) {
   /**
-    You will need to join two tables.
-    Resolves to the user with the given user_id.
+   You will need to join two tables.
+   Resolves to the user with the given user_id.
 
-    {
+   {
       "user_id": 2,
       "username": "sue",
       "role_name": "instructor"
     }
    */
-}
+  return db('users as u')
+      .select('u.user_id as user_id', 'u.username as username', 'r.role_name as role_name')
+      .innerJoin("roles as r", "r.role_id", "u.role_id")
+      .where('u.user_id', user_id)
 
+}
 /**
   Creating a user requires a single insert (into users) if the role record with the given
   role_name already exists in the db, or two inserts (into roles and then into users)
