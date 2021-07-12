@@ -1,7 +1,6 @@
+const User = require("../users/users-model")
 const { JWT_SECRET } = require("../secrets"); // use this secret!
-
-const restricted = (req, res, next) => {
-  /*
+/*
     If the user does not provide a token in the Authorization header:
     status 401
     {
@@ -16,6 +15,13 @@ const restricted = (req, res, next) => {
 
     Put the decoded token in the req object, to make life easier for middlewares downstream!
   */
+
+const restricted = (req, res, next) => {
+  if(req.session && req.session.user){
+    next()
+  }else{
+    res.status(401).json("Unauthorized")
+  }
 }
 
 const only = role_name => (req, res, next) => {
@@ -32,15 +38,36 @@ const only = role_name => (req, res, next) => {
 }
 
 
-const checkUsernameExists = (req, res, next) => {
-  /*
-    If the username in req.body does NOT exist in the database
-    status 401
-    {
-      "message": "Invalid credentials"
-    }
-  */
+/*
+  If the username in req.body does NOT exist in the database
+  status 401
+  {
+    "message": "Invalid credentials"
+  }
+*/
+const checkPayload = (req,res,next)=>{
+  if(!req.body.username || !req.body.password){
+      res.status(401).json("Username and password required")
+  }else{
+      next()
+  }
 }
+
+
+const checkUserExists = async (req,res,next)=>{
+try{
+    const rows = await User.findBy({username:req.body.username})
+    if(rows.length){
+        req.userData = rows[0]
+        next()
+    }else{
+        res.status(401).json("Username does not exist")
+    }
+}catch(e){
+    res.status(500).json(`Server error: ${e.message}`)
+}
+}
+
 
 
 const validateRoleName = (req, res, next) => {
@@ -66,7 +93,8 @@ const validateRoleName = (req, res, next) => {
 
 module.exports = {
   restricted,
-  checkUsernameExists,
+  checkUserExists,
+  checkPayload,
   validateRoleName,
   only,
 }
