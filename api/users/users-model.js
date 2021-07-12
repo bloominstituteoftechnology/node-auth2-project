@@ -38,6 +38,12 @@ function findBy(filter) {
       }
     ]
    */
+  //Query from sqlite studio
+  // select u.user_id as user_id, u.username as username, u.password as password, r.role_name as role_name
+  // from users u
+  // Inner Join roles r
+  // on r.role_id = u.role_id
+
   return db('users as u')
       .select('u.user_id as user_id', 'u.username as username', 'u.password as password', 'r.role_name as role_name')
       .innerJoin("roles as r", "r.role_id", "u.role_id")
@@ -55,11 +61,15 @@ function findById(user_id) {
       "role_name": "instructor"
     }
    */
+  // select u.user_id as user_id, u.username as username, r.role_name as role_name
+  // from users u
+  // Inner Join roles r
+  // on r.role_id = u.role_id
+  // where u.user_id = user_id   (if user_id = 2 only sue is returned
   return db('users as u')
       .select('u.user_id as user_id', 'u.username as username', 'r.role_name as role_name')
       .innerJoin("roles as r", "r.role_id", "u.role_id")
       .where('u.user_id', user_id)
-
 }
 /**
   Creating a user requires a single insert (into users) if the role record with the given

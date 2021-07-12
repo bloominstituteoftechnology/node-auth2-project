@@ -5,32 +5,31 @@ const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../secrets');
 
-router.post("/register", validateRoleName, async (req, res, next) => {
-  /**
-   [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
-   response:
-   status 201
-   {
+
+/**
+ [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
+ response:
+ status 201
+ {
       "user"_id: 3,
       "username": "anna",
       "role_name": "angel"
     }
-   */
-  try {
-    const username = req.body.username
-    const password = req.body.password
-    const role_name = req.body.role_name
-
-    const newUser = await Users.add({
-      username,
-      role_name,
-      password: await bcrypt.hash(password, 14)
-    })
-
-    res.status(201).json(newUser)
-  } catch (err) {
-    next(err)
-  }
+ */
+router.post("/register", validateRoleName,  (req, res, next) => {
+    let user = req.body
+   //bcrypt the password before saving
+    const rounds = process.env.BCRYPT_ROUNDS || 8
+    const hash = bcrypt.hashSync(user.password, rounds)
+    //never save the plain text password in the db
+    user.password = hash
+    Users.add(user)
+      .then(saved => {
+        res.status(201).json({
+          message: `Great to have to, ${saved.username}`
+        })
+      })
+        .catch(next)
 });
 
 
