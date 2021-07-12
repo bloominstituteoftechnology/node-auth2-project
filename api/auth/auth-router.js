@@ -21,12 +21,14 @@ router.post("/register", validateRoleName,  (req, res, next) => {
    //bcrypt the password before saving
     const rounds = process.env.BCRYPT_ROUNDS || 8
     const hash = bcrypt.hashSync(user.password, rounds)
+    //console.log('Hashed value after 8 rounds', hash)
     //never save the plain text password in the db
     user.password = hash
+    console.log('value of user.password after hash handoff', user.password)
     Users.add(user)
       .then(saved => {
         res.status(201).json({
-          message: `Great to have to, ${saved.username}`
+          message: `Great to have you, ${user.username}`
         })
       })
         .catch(next)
@@ -51,6 +53,7 @@ router.post("/login", checkUsernameExists, async (req, res, next) => {
     }
    */
   try {
+
     const options = {
       expiresIn: '1d',
     }
@@ -62,7 +65,7 @@ router.post("/login", checkUsernameExists, async (req, res, next) => {
     }
 
     const token = jwt.sign(payload, JWT_SECRET, options)
-
+    console.log('this is the token value from post /login', token)
     res.status(200).json({
       message: `${req.user.username} is back!`,
       token: token,
