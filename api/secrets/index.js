@@ -6,6 +6,9 @@
   If no fallback is provided, TESTS WON'T WORK and other
   developers cloning this repo won't be able to run the project as is.
  */
+
+ const JWT_SECRET = process.envJWT_SECRET || 'shh'
 module.exports = {
+  JWT_SECRET
 
 }

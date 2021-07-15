@@ -63,8 +63,21 @@ const only = role_name => (req, res, next) => {
 }
 
 
-const checkUsernameExists = (req, res, next) => {
-  
+const checkUsernameExists = async ( req, res, next) => {
+  try{
+    const rows = await User.findBy({username: req.body.usernme})
+    if(rows.length.trim()){
+      req.userData = rows[0]
+      next()
+    }else{
+      res.status(401).json({
+        "message": "Invalid credentials"
+
+      })
+    }
+    }catch(e){
+      res.status(500).json('Server broke')
+  }
   /*
     If the username in req.body does NOT exist in the database
     status 401
@@ -76,6 +89,18 @@ const checkUsernameExists = (req, res, next) => {
 
 
 const validateRoleName = (req, res, next) => {
+   if(!req.body.role_name || req.body.role_name.trim() === "") {
+    req.body.role_name = "student"
+        next()
+    } else if(req.body.role_name.trim() === "admin") {
+        res.status(422).json("Role name can not be admin")
+    } else if(req.body.role_name.trim().length > 32) {
+        res.status(422).json("Role name can not be longer than 32 chars")
+    }  else {
+        req.body.role_name.trim()
+        next()
+    }
+  }
   /*
     If the role_name in the body is valid, set req.role_name to be the trimmed string and proceed.
 
@@ -94,7 +119,7 @@ const validateRoleName = (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
-}
+
 
 module.exports = {
   restricted,
