@@ -20,8 +20,8 @@ async function find() {
 
     select u.user_id, u.username , r.role_name
 from users as u 
-left join roles as r
-where u.role_id = r.role_id
+  join roles as r
+  on u.role_id = r.role_id
    */
   return db("users as u")
     .join("roles as r", "u.role_id", "r.role_id")

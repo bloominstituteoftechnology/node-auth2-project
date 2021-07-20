@@ -39,8 +39,14 @@ router.get("/", restricted, (req, res, next) => { // done for you
       "username": "bob"
     }
   ]
+  select u.user_id, u.username , r.role_name , u.password
+from users as u 
+join roles as r
+        on u.role_id = r.role_id
+where u.user_id = 1
+
  */
-router.get("/:user_id", (req, res, next) => { // done for you
+router.get("/:user_id", restricted, only('admin'), (req, res, next) => { // done for you
   Users.findById(req.params.user_id)
     .then(user => {
       res.json(user);
