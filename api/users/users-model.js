@@ -23,12 +23,10 @@ from users as u
 left join roles as r
 where u.role_id = r.role_id
    */
-  const users = await db("users as u")
-    .leftJoin("roles as r")
-    .select("u.user_id", "u.username", "r.role_name")
-    .where("u.role_id", "r.role_id");
-
-  return users;
+  return db("users as u")
+  .join("roles as r", "u.role_id", "r.role_id")
+  .select("u.user_id", "u.username", "r.role_name")  
+ 
 }
 
 function findBy(filter) {
@@ -58,6 +56,7 @@ function findById(user_id) {
       "role_name": "instructor"
     }
    */
+  
 }
 
 /**
