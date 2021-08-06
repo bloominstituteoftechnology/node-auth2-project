@@ -1,47 +1,37 @@
-const { JWT_SECRET } = require("../secrets"); // use this secret!
+// const { JWT_SECRET } = require("../secrets"); // use this secret!
 
 const restricted = (req, res, next) => {
   /*
     If the user does not provide a token in the Authorization header:
-    status 401
-    {
-      "message": "Token required"
-    }
+    status 401 { "message": "Token required" }
 
     If the provided token does not verify:
-    status 401
-    {
-      "message": "Token invalid"
-    }
+    status 401 { "message": "Token invalid" }
 
     Put the decoded token in the req object, to make life easier for middlewares downstream!
   */
-}
+  next();
+};
 
-const only = role_name => (req, res, next) => {
+const only = (role_name) => (req, res, next) => {
   /*
     If the user does not provide a token in the Authorization header with a role_name
     inside its payload matching the role_name passed to this function as its argument:
-    status 403
-    {
-      "message": "This is not for you"
-    }
+    status 403 { "message": "This is not for you" }
 
     Pull the decoded token from the req object, to avoid verifying it again!
   */
-}
-
+  console.log(role_name);
+  next();
+};
 
 const checkUsernameExists = (req, res, next) => {
   /*
     If the username in req.body does NOT exist in the database
-    status 401
-    {
-      "message": "Invalid credentials"
-    }
+    status 401 { "message": "Invalid credentials" }
   */
-}
-
+  next();
+};
 
 const validateRoleName = (req, res, next) => {
   /*
@@ -51,22 +41,17 @@ const validateRoleName = (req, res, next) => {
     set req.role_name to be 'student' and allow the request to proceed.
 
     If role_name is 'admin' after trimming the string:
-    status 422
-    {
-      "message": "Role name can not be admin"
-    }
+    status 422 { "message": "Role name can not be admin" }
 
     If role_name is over 32 characters after trimming the string:
-    status 422
-    {
-      "message": "Role name can not be longer than 32 chars"
-    }
+    status 422 { "message": "Role name can not be longer than 32 chars" }
   */
-}
+  next();
+};
 
 module.exports = {
   restricted,
   checkUsernameExists,
   validateRoleName,
   only,
-}
+};
