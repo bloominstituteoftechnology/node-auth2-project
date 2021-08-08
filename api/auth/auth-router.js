@@ -4,7 +4,7 @@ const tokenBuilder = require("./token-builder");
 const Users = require("../users/users-model");
 
 const { checkUsernameExists, validateRoleName } = require("./auth-middleware");
-// const { JWT_SECRET } = require("../secrets"); // use this secret!
+// const { jwtSecret } = require("../secrets"); // use this secret!
 
 router.post("/register", validateRoleName, (req, res, next) => {
   /**
@@ -57,7 +57,7 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
     .then(([user]) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = tokenBuilder(user);
-        res.status(200).json({ message: ` ${user.username} is back!`, token });
+        res.status(200).json({ message: `${user.username} is back!`, token });
       } else {
         next({ status: 401, message: "Invalid Credentials" });
       }
