@@ -1,5 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
+const { JWT_SECRET } = require("./secrets/index.js");
 const cors = require("cors");
 const session = require("express-session")
 const KnexSessionStore = require("connect-session-knex")(session)
@@ -12,7 +13,7 @@ const server = express();
 
 const configsession = {
   name: "sessionId",
-  secret: "keep it secret, keep it safe",
+  secret: JWT_SECRET,
   cookie:{
     maxAge: 1000 * 60 * 60,
     secure: false,
