@@ -46,7 +46,7 @@ function makeToken(user) {
   const options = {
     expiresIn: "1d",
   };
-  return jwt.sign(payload, "keepitsafe", options);
+  return jwt.sign(payload, JWT_SECRET, options);
 }
 /**
     [POST] /api/auth/login { "username": "sue", "password": "1234" }

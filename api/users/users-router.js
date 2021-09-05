@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Users = require("./users-model.js");
-const { restricted, only } = require("../auth/auth-middleware.js");
+const { restricted, only, validateRoleName } = require("../auth/auth-middleware.js");
 
 /**
   [GET] /api/users
@@ -17,7 +17,7 @@ const { restricted, only } = require("../auth/auth-middleware.js");
     }
   ]
  */
-router.get("/", restricted, (req, res, next) => { // done for you
+router.get("/", restricted, validateRoleName, (req, res, next) => { // done for you
   Users.find()
     .then(users => {
       res.json(users);
