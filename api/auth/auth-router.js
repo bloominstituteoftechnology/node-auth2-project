@@ -44,7 +44,7 @@ function makeToken(user) {
     role: user.role,
   };
   const options = {
-    expiresIn: "20s",
+    expiresIn: "1d",
   };
   return jwt.sign(payload, "keepitsafe", options);
 }
