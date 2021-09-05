@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const { checkUsernameExists, validateRoleName } = require("./auth-middleware");
 const { JWT_SECRET } = require("../secrets"); // use this secret!
 const Users = require("../users/users-model.js");
@@ -24,6 +25,7 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
   Users.findBy({ username })
     .then(([user]) => {
       if (user && bcrypt.compareSync(password, user.password)) {
+        const token = makeToken(user);
         res.status(200).json({
           message: "Sue is back!",
           token,
@@ -34,6 +36,18 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
     })
     .catch(next);
 });
+
+function makeToken(user) {
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    role: user.role,
+  };
+  const options = {
+    expiresIn: "20s",
+  };
+  return jwt.sign(payload, "keepitsafe", options);
+}
 /**
     [POST] /api/auth/login { "username": "sue", "password": "1234" }
 
