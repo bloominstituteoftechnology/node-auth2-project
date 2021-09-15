@@ -34,8 +34,9 @@ const restricted = (req, res, next) => {
 
 const only = role_name => (req, res, next) => {
   const { decodedJwt } = req
+  console.log(role_name)
   if(decodedJwt.role_name !== role_name) {
-    next({ message: "This is not for you"})
+    next({ message: "This is not for you", status: 403})
   } else {
     next()
   }
@@ -61,6 +62,7 @@ const checkUsernameExists = (req, res, next) => {
     if(credentials.length < 1) {
       next({ message: 'Invalid credentials', status: 401})
     } else {
+      req.user = credentials[0];
       next()
     }
   })
