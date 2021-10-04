@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
 const { JWT_SECRET } = require("../secrets"); // use this secret!
+const bcrypt = require('bcryptjs') //require bycript>js< not just bycript
+const User =  require('../users/users-model')
 
 router.post("/register", validateRoleName, (req, res, next) => {
   /**
@@ -14,7 +16,31 @@ router.post("/register", validateRoleName, (req, res, next) => {
       "role_name": "angel"
     }
    */
-});
+
+    const {username, password} = req.body
+    const {role_name} = req
+    const hash = bcrypt.hashSync(password, 8) //8^2 hashing, not too high or too slow, albeit more secure
+    User.add({ username, password: hash, role_name})
+      .then( newUser => {
+        //console.log(newUser)
+        res.status(201).json(
+          //{
+          // user: newUser.user,
+          // username: newUser.username,
+          // role_name: newUser.role_name,
+          // } 
+        newUser)
+      })
+      .catch(next)
+})
+
+
+// .catch(next)
+//  equivalent to
+
+// .catch (err => {
+//  next(err)
+//  })
 
 
 router.post("/login", checkUsernameExists, (req, res, next) => {
