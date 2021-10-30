@@ -1,46 +1,46 @@
 const router = require("express").Router();
-const bcrypt = require('brcryptjs')
+const bcrypt = require('bcryptjs')
 const User = require('../users/users-model')
 const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
 const { JWT_SECRET } = require("../secrets"); // use this secret!
+const jwt = require('jsonwebtoken')
 
 router.post("/register", validateRoleName, (req, res, next) => {
-  try{
-    const hash = bcrypt.hashSync(req.body.password, 10)
-    const newUser = await User.add({username: req.body.username, password: hash, role_name: req.body.role_name})
-    res.status(201).json(newUser)
-  }catch(err){
-    res.status(500).json({message: err.message})
-  }
+    const {username, password} = req.body
+    const hash = bcrypt.hashSync(password, 8)
+    const role_name = 'student'
+    User.add({username, password: hash, role_name})
+    .then(newUser => {
+      res.status(201).json(newUser)
+    })
+    .catch(next)
 });
 
 
 router.post("/login", checkUsernameExists, (req, res, next) => {
-  try{
-    const verified = bcrypt.compareSync(req.body.password, req.userData.password)
-    if(verified){
-      req.session.user = req.userData
-      res.json(`Welcome $${req.userData.username}`)
+  let {username, password} = req.body
+  User.findBy({username})
+  .then(([user]) => {
+    if(user && bcrypt.compareSync(password, user.password)){
+      const token = makeToken(user)
+      res.status(200).json({message: '/bob is back/', token})
     }else{
-      res.status(401).json('username or password incorrect')
+      next({status: 401, message: 'Invalid credentials'})
     }
-  }catch(err){
-    res.status(500).json({message: err.message})
-  }
+  })
+  .catch(next)
 });
 
-router.get('/logout', (req, res) => {
-  if(req.session){
-    req.session.destroy(err => {
-      if(err){
-        res.json(`Can't log out` + err.message)
-      }else{
-        res.json('logged out successfully!')
-      }
-    })
-  }else{
-    res.json('session does not exist')
+function makeToken(user){
+  const payload = {
+    subject: user.id,
+    username: user.username,
+    role: user.role
   }
-})
+  const options = {
+    expiresIn: '1d'
+  }
+  return jwt.sign(payload, JWT_SECRET, options)
+}
 
 module.exports = router;

@@ -7,7 +7,7 @@
   developers cloning this repo won't be able to run the project as is.
  */
 
-const JWT_SECRET = process.env.JWT_SECRET || 'Do not tell'
+const JWT_SECRET = process.env.JWT_SECRET || 'shhh'
 module.exports = {
   JWT_SECRET
 }

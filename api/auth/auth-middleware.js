@@ -1,5 +1,5 @@
 const { JWT_SECRET } = require("../secrets"); // use this secret!
-const User = require('../users/users-model')
+const {findBy} = require('../users/users-model')
 const jwt = require('jsonwebtoken')
 
 const restricted = (req, res, next) => {
@@ -9,7 +9,7 @@ const restricted = (req, res, next) => {
   }else{
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if(err){
-        err.status(401).json('Token invalid', err.message)
+        err.status(401).json('Token invalid')
       }else{
         req.decodedToken = decoded
         next()
@@ -19,6 +19,11 @@ const restricted = (req, res, next) => {
 }
 
 const only = role_name => (req, res, next) => {
+  if(role_name === req.decodedToken.role_name){
+    next()
+  }else{
+    next({status: 403, message: 'This is not for you'})
+  }
 }
 
 const checkPayload = (req, res, next) => {
@@ -29,29 +34,39 @@ const checkPayload = (req, res, next) => {
   }
 }
 
-
-const checkUserExists = async (req, res, next) => {
+const checkUsernameExists = async (req, res, next) => {
   try{
-    const rows = await User.findBy({username: req.body.username})
-    if(rows.length){
-      req.userData = rows[0]
-      next()
+    const [user] = await findBy({username: req.body.username})
+    if(!user){
+      next({status:401, message: 'Invalid credentials'})
     }else{
-      res.status(401).json('Invalid credentials')
+      req.user = user
+      next()
     }
   }catch(err){
-    res.status(500).json(`Server error: ${err.message}`)
+    next(err)
   }
 }
 
 
 const validateRoleName = (req, res, next) => {
+  if(!req.body.role_name || req.body.role_name.trim()){
+    req.role_name = ''
+    next()
+  }else if(req.body.role_name.trim() === 'admin'){
+    next({status: 422, message: 'Role name can not be admin'})
+  }else if(req.body.role_name.trim().length() > 32){
+    next({status: 422, message: 'Role name can not be longer than 32 chars'})
+  }else{
+    req.role_name = req.body.role_name.trim()
+    next()
+  }
 }
 
 module.exports = {
   restricted,
   checkPayload,
-  checkUserExists,
+  checkUsernameExists,
   validateRoleName,
   only,
 }
