@@ -30,7 +30,7 @@ const checkPayload = (req, res, next) => {
 }
 
 
-const checkUsernameExists = async (req, res, next) => {
+const checkUserExists = async (req, res, next) => {
   try{
     const rows = await User.findBy({username: req.body.username})
     if(rows.length){
@@ -51,7 +51,7 @@ const validateRoleName = (req, res, next) => {
 module.exports = {
   restricted,
   checkPayload,
-  checkUsernameExists,
+  checkUserExists,
   validateRoleName,
   only,
 }
