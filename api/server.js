@@ -1,16 +1,15 @@
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
-const {JWT_SECRET} = require('./secrets/index')
+const {JWT_SECRET} = require('./secrets/index.js')
 const session = require('express-session')
 const KnexSessionStore = require('connect-session-knex')(session)
-
 const authRouter = require("./auth/auth-router.js");
 const usersRouter = require("./users/users-router.js");
 
 const server = express();
 
-const configsession = {
+const config = {
   name: 'sessionId',
   secret: JWT_SECRET,
   cookie: {
@@ -29,11 +28,10 @@ const configsession = {
   })
 }
 
-
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
-server.use(session(configsession))
+server.use(session(config))
 
 server.use("/api/auth", authRouter);
 server.use("/api/users", usersRouter);
