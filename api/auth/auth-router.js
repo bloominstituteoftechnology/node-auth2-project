@@ -58,7 +58,7 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
         const token = makeToken(user)
 
         res.status(200).json({
-          message: `Welcome back ${user.username}!`,
+          message: `${user.username} is back!`,
           token
         });
       } else {
@@ -70,14 +70,14 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
 
 function makeToken(user){
   const payload ={
-    subject:user.id,
+    subject:user.user_id,
     username:user.username,
-    role:user.role
+    role:user.role_name
   }
   const options = {
-    expiresIn: "200s"
+    expiresIn: "1d"
   }
-  return jwt.sign(payload,jwtSecret,options)
+  return jwt.sign(payload,JWT_SECRET,options)
 }
 
 
