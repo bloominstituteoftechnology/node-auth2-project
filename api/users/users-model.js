@@ -27,11 +27,11 @@ function find() {
     .select('u.username','u.user_id', 'r.role_name');
 }
 
-function findBy(filter) {
+function findBy(admin) {
   /**
     You will need to join two tables.
     Resolves to an ARRAY with all users that match the filter condition.
-
+    
     [
       {
         "user_id": 1,
@@ -40,7 +40,16 @@ function findBy(filter) {
         "role_name": "admin",
       }
     ]
+    select u.user_id, u.username, u.password, r.role_name  
+    from users u 
+    join roles r
+    on u.role_id = r.role_id
+    where r.role_name = 'admin' 
    */
+  return db('users as u')
+  .join('roles as r', 'u.role_id', '=', 'r.role_id')
+  .select('u.user_id','u.username','u.password','r.role_name')
+  .where('r.role_name', admin)
 }
 
 function findById(user_id) {
@@ -53,7 +62,16 @@ function findById(user_id) {
       "username": "sue",
       "role_name": "instructor"
     }
+    select u.user_id, u.username, r.role_name  
+    from users u 
+    join roles r
+    on u.role_id = r.role_id
+    where u.user_id = 2 
    */
+  return db('users as u')
+  .join('roles r', 'u.role_id', '=', 'r.role_id')
+  .select('u.user_id','u.username','r.role_name')
+  .where('u.user_id', user_id)
 }
 
 /**
