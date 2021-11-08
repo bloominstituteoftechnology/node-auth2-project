@@ -7,7 +7,7 @@
     "migrate": "knex migrate:latest",
     "rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
-    "test": "cross-env NODE_ENV=testing jest --watch --verbose --runInBand"
+    "test": "cross-env NODE_ENV=testing jest --verbose --runInBand"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",
