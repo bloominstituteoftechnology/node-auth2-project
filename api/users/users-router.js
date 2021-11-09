@@ -21,6 +21,7 @@ router.get("/", restricted, (req, res, next) => { // done for you
   Users.find()
     .then(users => {
       res.json(users);
+      console.log([users])
     })
     .catch(next);
 });
