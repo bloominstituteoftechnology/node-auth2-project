@@ -25,7 +25,8 @@
     "helmet": "^4.6.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.95.11",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.2",
+    "yup": "^0.32.11"
   },
   "repository": {
     "type": "git",
