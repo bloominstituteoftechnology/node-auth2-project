@@ -101,7 +101,6 @@ const validateRoleName = async (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
-  const { role_name } = req.body;
   const roleSchema = yup.object().shape({
     role_name: yup
       .string()
@@ -111,6 +110,7 @@ const validateRoleName = async (req, res, next) => {
       .default(() => { return "student" })
   })
   try {
+    const { role_name } = req.body;
     const validatedRole = await roleSchema.validate({ role_name })
     req.role_name = validatedRole.role_name;
     next()

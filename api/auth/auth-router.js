@@ -6,8 +6,8 @@ const {
   validateRoleName
 } = require('./auth-middleware');
 const User = require("./../users/users-model");
-const { JWT_SECRET } = require("./../secrets"); // use this secret!
 const { BCRYPT_ROUNDS } = require("./../../config");
+const buildToken = require("./token-builder");
 
 router.post("/register",
   validateRoleName,
@@ -31,7 +31,7 @@ router.post("/register",
 
       const newUser = await User.add(user);
 
-      return newUser;
+      res.status(201).json(newUser);
     } catch (err) {
       next(err);
     }
@@ -62,18 +62,12 @@ router.post("/login",
       }
      */
     try {
-      const { username, password } = req.body;
-      const user = await User.findBy({ username });
-      if (user && bcrypt.compareSync(password, user.password)) {
-        const token = jwt.sign({
-          subject: user.user_id,
-          username: user.username,
-          role: user.role_name
-        },
-          JWT_SECRET,
-          { expiresIn: "1d" });
+      const credentials = req.body;
+      const user = await User.findBy({ username: credentials.username });
+      if (user && bcrypt.compareSync(credentials.password, user.password)) {
+        const token = buildToken(user)
         res.status(200).json({
-          message: `${username} is back!`,
+          message: `${user.username} is back!`,
           token: token
         });
       } else {
