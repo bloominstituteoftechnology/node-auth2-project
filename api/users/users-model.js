@@ -49,12 +49,12 @@ async function findBy(filter) {
 }
 
 async function findById(user_id) {
-  const user = await db('users as u')
-  .select('u.user_id', 'u.username', 'r.role_name')
-  .join('roles as r', 'r.role_id', 'u.role_id')
-  .where('u.user_id', user_id)
-  
-  return user
+  const user = await db("users as u")
+    .select("u.user_id", "u.username", "r.role_name")
+    .join("roles as r", "r.role_id", "u.role_id")
+    .where("user_id", user_id);
+
+  return user;
 
   /**
     You will need to join two tables.
