@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = require("../secrets"); // use this secret!
+const { JWT_SECRET } = require("../secrets");
 const Users = require("./../users/users-model");
 
 const restricted = (req, res, next) => {
@@ -10,6 +10,7 @@ const restricted = (req, res, next) => {
   } else {
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
       if (err) {
+        delete req.decodedJwt;
         next({
           status: 401,
           message: "Token invalid",
@@ -20,44 +21,17 @@ const restricted = (req, res, next) => {
       }
     });
   }
-  /*
-    If the user does not provide a token in the Authorization header:
-    status 401
-    {
-      "message": "Token required"
-    }
-
-    If the provided token does not verify:
-    status 401
-    {
-      "message": "Token invalid"
-    }
-
-    Put the decoded token in the req object, to make life easier for middlewares downstream!
-  */
 };
 
 const only = (role_name) => (req, res, next) => {
-
-  if(req.decodedJwt.role_name !== role_name) {
+  if (req.decodedJwt.role_name !== role_name) {
     next({
       status: 403,
-      message: "This is not for you"
-    })
+      message: "This is not for you",
+    });
   } else {
-    next()
+    next();
   }
-  /*
-    If the user does not provide a token in the Authorization header with a role_name
-    inside its payload matching the role_name passed to this function as its argument:
-    status 403
-    {
-      "message": "This is not for you"
-    }
-
-    Pull the decoded token from the req object, to avoid verifying it again!
-  */
-  // next();
 };
 
 const checkUsernameExists = async (req, res, next) => {
@@ -73,14 +47,6 @@ const checkUsernameExists = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-
-  /*
-    If the username in req.body does NOT exist in the database
-    status 401
-    {
-      "message": "Invalid credentials"
-    }
-  */
 };
 
 const validateRoleName = (req, res, next) => {
@@ -104,7 +70,52 @@ const validateRoleName = (req, res, next) => {
       next();
     }
   }
-  /*
+};
+
+module.exports = {
+  restricted,
+  checkUsernameExists,
+  validateRoleName,
+  only,
+};
+
+/* RESTRICTED
+    If the user does not provide a token in the Authorization header:
+    status 401
+    {
+      "message": "Token required"
+    }
+
+    If the provided token does not verify:
+    status 401
+    {
+      "message": "Token invalid"
+    }
+
+    Put the decoded token in the req object, to make life easier for middlewares downstream!
+  */
+
+/*ONLY
+    If the user does not provide a token in the Authorization header with a role_name
+    inside its payload matching the role_name passed to this function as its argument:
+    status 403
+    {
+      "message": "This is not for you"
+    }
+
+    Pull the decoded token from the req object, to avoid verifying it again!
+  */
+// next();
+
+/* CHECK USERNAME EXISTS
+    If the username in req.body does NOT exist in the database
+    status 401
+    {
+      "message": "Invalid credentials"
+    }
+  */
+
+/* VALIDATE ROLE NAME
     If the role_name in the body is valid, set req.role_name to be the trimmed string and proceed.
 
     If role_name is missing from req.body, or if after trimming it is just an empty string,
@@ -122,11 +133,3 @@ const validateRoleName = (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
-};
-
-module.exports = {
-  restricted,
-  checkUsernameExists,
-  validateRoleName,
-  only,
-};

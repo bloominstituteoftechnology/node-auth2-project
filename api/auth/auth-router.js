@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const Users = require("./../users/users-model");
 const jwt = require("jsonwebtoken");
 const { checkUsernameExists, validateRoleName } = require("./auth-middleware");
-const { JWT_SECRET } = require("../secrets"); // use this secret!
+const { JWT_SECRET } = require("../secrets");
 
 router.post("/register", validateRoleName, async (req, res, next) => {
   let user = req.body;
@@ -15,22 +15,10 @@ router.post("/register", validateRoleName, async (req, res, next) => {
 
   try {
     const newUser = await Users.add(user);
-    res.status(201).json(newUser[0]);
+    res.status(201).json(newUser);
   } catch (err) {
     next(err);
   }
-
-  /**
-    [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
-
-    response:
-    status 201
-    {
-      "user"_id: 3,
-      "username": "anna",
-      "role_name": "angel"
-    }
-   */
 });
 
 router.post("/login", checkUsernameExists, (req, res, next) => {
@@ -51,7 +39,23 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
   } else {
     next({ status: 401, message: "Invalid credentials" });
   }
-  /**
+});
+
+module.exports = router;
+
+/**
+    [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
+
+    response:
+    status 201
+    {
+      "user"_id: 3,
+      "username": "anna",
+      "role_name": "angel"
+    }
+   */
+
+/**
     [POST] /api/auth/login { "username": "sue", "password": "1234" }
 
     response:
@@ -70,6 +74,3 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
       "role_name": "admin" // the role of the authenticated user
     }
    */
-});
-
-module.exports = router;
