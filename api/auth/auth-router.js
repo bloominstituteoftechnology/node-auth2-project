@@ -6,7 +6,7 @@ const {
   validateRoleName
 } = require('./auth-middleware');
 const User = require("./../users/users-model");
-const { JWT_SECRET } = require("../secrets"); // use this secret!
+const { JWT_SECRET } = require("./../secrets"); // use this secret!
 const { BCRYPT_ROUNDS } = require("./../../config");
 
 router.post("/register",
@@ -26,9 +26,11 @@ router.post("/register",
     try {
       let user = req.body;
       const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS);
+      user.role_name = req.role_name;
       user.password = hash;
 
       const newUser = await User.add(user);
+
       return newUser;
     } catch (err) {
       next(err);
