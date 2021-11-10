@@ -64,7 +64,7 @@ router.post("/login",
     try {
       const credentials = req.body;
       const user = await User.findBy({ username: credentials.username });
-      if (user && bcrypt.compareSync(credentials.password, user[0].password)) {
+      if (user[0] && bcrypt.compareSync(credentials.password, user[0].password)) {
         const token = buildToken(user)
         res.status(200).json({
           message: `${credentials.username} is back!`,
