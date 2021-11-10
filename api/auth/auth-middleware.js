@@ -21,24 +21,23 @@ const restricted = (req, res, next) => {
   */
   const token = req.headers.authorization;
   if (!token) {
-    next({
+    return next({
       status: 401,
       message: "Token required"
     });
-  } else {
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) {
-        next({
-          status: 401,
-          message: "Token invalid"
-        });
-      } else {
-        req.decodedJwt = decoded;
-        next();
-      }
-    });
   }
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return next({
+        status: 401,
+        message: "Token invalid"
+      });
+    }
+    req.decodedJwt = decoded;
+    next();
+  })
 };
+
 
 const only = role_name => (req, res, next) => {
   /*
@@ -116,7 +115,6 @@ const validateRoleName = async (req, res, next) => {
     req.role_name = validatedRole.role_name;
     next()
   } catch (err) {
-    console.log(err.errors[0])
     next({
       status: 422,
       message: err.errors[0]
