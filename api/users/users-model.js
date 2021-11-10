@@ -1,6 +1,6 @@
 const db = require('../../data/db-config.js');
 
-function find() {
+const find = async () => {
   /**
     You will need to join two tables.
     Resolves to an ARRAY with all users.
@@ -18,7 +18,7 @@ function find() {
       }
     ]
    */
-  const users = db("users as u")
+  const users = await db("users as u")
     .leftJoin("roles as r",
       "u.role_id", "r.role_id")
     .select("u.user_id",
@@ -27,7 +27,7 @@ function find() {
   return users;
 }
 
-function findBy(filter) {
+const findBy = async (filter) => {
   /**
     You will need to join two tables.
     Resolves to an ARRAY with all users that match the filter condition.
@@ -41,7 +41,7 @@ function findBy(filter) {
       }
     ]
    */
-  const filteredUsers = db("users as u")
+  const filteredUsers = await db("users as u")
     .leftJoin("roles as r",
       "u.role_id", "r.role_id")
     .select("u.user_id",
@@ -52,7 +52,7 @@ function findBy(filter) {
   return filteredUsers;
 }
 
-function findById(user_id) {
+const findById = async (user_id) => {
   /**
     You will need to join two tables.
     Resolves to the user with the given user_id.
@@ -63,7 +63,7 @@ function findById(user_id) {
       "role_name": "instructor"
     }
    */
-  const user = db("users as u")
+  const user = await db("users as u")
     .leftJoin("roles as r",
       "u.role_id", "r.role_id")
     .select("u.user_id",
@@ -92,7 +92,7 @@ function findById(user_id) {
     "role_name": "team lead"
   }
  */
-async function add({ username, password, role_name }) { // done for you
+const add = async ({ username, password, role_name }) => { // done for you
   let created_user_id;
   await db.transaction(async trx => {
     let role_id_to_use;
