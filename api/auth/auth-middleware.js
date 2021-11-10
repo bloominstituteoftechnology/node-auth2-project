@@ -109,13 +109,14 @@ const validateRoleName = async (req, res, next) => {
       .trim()
       .notOneOf(["admin"], "Role name can not be admin")
       .max(32, "Role name can not be longer than 32 chars")
-      .default(() => { "student" })
+      .default(() => { return "student" })
   })
   try {
     const validatedRole = await roleSchema.validate({ role_name })
     req.role_name = validatedRole;
     next()
   } catch (err) {
+    console.log(err.errors[0])
     next({
       status: 422,
       message: err.errors[0]
