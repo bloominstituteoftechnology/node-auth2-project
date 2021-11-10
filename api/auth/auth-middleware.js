@@ -113,7 +113,7 @@ const validateRoleName = async (req, res, next) => {
   })
   try {
     const validatedRole = await roleSchema.validate({ role_name })
-    req.role_name = validatedRole;
+    req.role_name = validatedRole.role_name;
     next()
   } catch (err) {
     console.log(err.errors[0])
