@@ -1,5 +1,5 @@
 const { JWT_SECRET } = require("../secrets"); // use this secret!
-const Users = require('./../users/users-model');
+const Users = require("./../users/users-model");
 
 const restricted = (req, res, next) => {
   /*
@@ -35,19 +35,19 @@ const only = (role_name) => (req, res, next) => {
 };
 
 const checkUsernameExists = async (req, res, next) => {
-try{
-  const { username } = req.body
-  const user = await Users.findBy({ username })
-  if(user.length === 0){
-    next({ status: 401, message: "Invalid credentials"})
-  } else {
-    req.userFromDb = user[0]
-    next()
+  try {
+    const { username } = req.body;
+    const user = await Users.findBy({ username });
+    if (user.length === 0) {
+      next({ status: 401, message: "Invalid credentials" });
+    } else {
+      req.userFromDb = user[0];
+      next();
+    }
+  } catch (err) {
+    next(err);
   }
-} catch(err){
-  next(err)
-}
-  
+
   /*
     If the username in req.body does NOT exist in the database
     status 401
@@ -58,17 +58,25 @@ try{
 };
 
 const validateRoleName = (req, res, next) => {
-  const trimmedRole = req.body.role_name.trim();
-  if (!trimmedRole) {
-    req.body.role_name = 'student'
-    next()
-  } else if (trimmedRole === 'adming'){
-    next({ status: 422, message: 'Role name can not be admin'})
-  } else if (trimmedRole.length > 32) {
-    next({ status: 422, message: 'Role name can not be longer than 32 chars'})
+  if (req.body.role_name === undefined) {
+    req.body.role_name = "student";
+    next();
   } else {
-    req.body.role_name = trimmedRole
-    next()
+    const trimmedRole = req.body.role_name.trim();
+    if (!trimmedRole) {
+      req.body.role_name = "student";
+      next();
+    } else if (trimmedRole === "admin") {
+      next({ status: 422, message: "Role name can not be admin" });
+    } else if (trimmedRole.length > 32) {
+      next({
+        status: 422,
+        message: "Role name can not be longer than 32 chars",
+      });
+    } else {
+      req.body.role_name = trimmedRole;
+      next();
+    }
   }
   /*
     If the role_name in the body is valid, set req.role_name to be the trimmed string and proceed.
