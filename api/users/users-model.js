@@ -41,7 +41,7 @@ function findBy(filter) {
       }
     ]
    */
-  const filteredUsers = db("user as u")
+  const filteredUsers = db("users as u")
     .leftJoin("roles as r",
       "u.role_id", "r.role_id")
     .select("u.user_id",
@@ -63,7 +63,7 @@ function findById(user_id) {
       "role_name": "instructor"
     }
    */
-  const user = db("user as u")
+  const user = db("users as u")
     .leftJoin("roles as r",
       "u.role_id", "r.role_id")
     .select("u.user_id",
