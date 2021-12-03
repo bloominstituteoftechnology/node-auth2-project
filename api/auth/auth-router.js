@@ -1,9 +1,49 @@
 const router = require("express").Router();
-const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
-const { JWT_SECRET } = require("../secrets"); // use this secret!
+const bcrypt = require("bcryptjs");
+const Users = require("./../users/users-model");
+const jwt = require("jsonwebtoken");
+const { checkUsernameExists, validateRoleName } = require("./auth-middleware");
+const { JWT_SECRET } = require("../secrets");
 
-router.post("/register", validateRoleName, (req, res, next) => {
-  /**
+router.post("/register", validateRoleName, async (req, res, next) => {
+  let user = req.body;
+
+  const rounds = process.env.BCRYPT_ROUNDS || 8;
+  const hash = bcrypt.hashSync(user.password, rounds);
+
+  user.password = hash;
+
+  try {
+    const newUser = await Users.add(user);
+    res.status(201).json(newUser);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post("/login", checkUsernameExists, (req, res, next) => {
+  const { username, password } = req.body;
+  const { userFromDb } = req;
+
+  if (bcrypt.compareSync(password, userFromDb.password)) {
+    const payload = {
+      subject: userFromDb.user_id,
+      username: userFromDb.username,
+      role_name: userFromDb.role_name,
+    };
+    const options = {
+      expiresIn: "1d",
+    };
+    const token = jwt.sign(payload, JWT_SECRET, options);
+    res.status(200).json({ message: `${username} is back!`, token });
+  } else {
+    next({ status: 401, message: "Invalid credentials" });
+  }
+});
+
+module.exports = router;
+
+/**
     [POST] /api/auth/register { "username": "anna", "password": "1234", "role_name": "angel" }
 
     response:
@@ -14,11 +54,8 @@ router.post("/register", validateRoleName, (req, res, next) => {
       "role_name": "angel"
     }
    */
-});
 
-
-router.post("/login", checkUsernameExists, (req, res, next) => {
-  /**
+/**
     [POST] /api/auth/login { "username": "sue", "password": "1234" }
 
     response:
@@ -37,6 +74,3 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
       "role_name": "admin" // the role of the authenticated user
     }
    */
-});
-
-module.exports = router;
