@@ -1,4 +1,7 @@
-const { JWT_SECRET } = require("../secrets"); // use this secret!
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = require("./../secrets"); // use this secret!
+const User = require("./../users/users-model");
+const yup = require("yup");
 
 const restricted = (req, res, next) => {
   /*
@@ -16,7 +19,25 @@ const restricted = (req, res, next) => {
 
     Put the decoded token in the req object, to make life easier for middlewares downstream!
   */
-}
+  const token = req.headers.authorization;
+  if (!token) {
+    return next({
+      status: 401,
+      message: "Token required"
+    });
+  }
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return next({
+        status: 401,
+        message: "Token invalid"
+      });
+    }
+    req.decodedJwt = decoded;
+    next();
+  })
+};
+
 
 const only = role_name => (req, res, next) => {
   /*
@@ -29,10 +50,18 @@ const only = role_name => (req, res, next) => {
 
     Pull the decoded token from the req object, to avoid verifying it again!
   */
-}
+  if (req.decodedJwt.role_name !== role_name) {
+    next({
+      status: 403,
+      message: "This is not for you"
+    });
+  } else {
+    next();
+  }
+};
 
 
-const checkUsernameExists = (req, res, next) => {
+const checkUsernameExists = async (req, res, next) => {
   /*
     If the username in req.body does NOT exist in the database
     status 401
@@ -40,10 +69,20 @@ const checkUsernameExists = (req, res, next) => {
       "message": "Invalid credentials"
     }
   */
-}
+  const { username } = req.body;
+  const user = await User.findBy({ username });
+  if (!user) {
+    next({
+      status: 401,
+      message: "Invalid credentials"
+    });
+  } else {
+    next();
+  }
+};
 
 
-const validateRoleName = (req, res, next) => {
+const validateRoleName = async (req, res, next) => {
   /*
     If the role_name in the body is valid, set req.role_name to be the trimmed string and proceed.
 
@@ -62,11 +101,30 @@ const validateRoleName = (req, res, next) => {
       "message": "Role name can not be longer than 32 chars"
     }
   */
-}
+  const roleSchema = yup.object().shape({
+    role_name: yup
+      .string()
+      .trim()
+      .notOneOf(["admin"], "Role name can not be admin")
+      .max(32, "Role name can not be longer than 32 chars")
+      .default(() => { return "student" })
+  })
+  try {
+    const { role_name } = req.body;
+    const validatedRole = await roleSchema.validate({ role_name })
+    req.role_name = validatedRole.role_name;
+    next()
+  } catch (err) {
+    next({
+      status: 422,
+      message: err.errors[0]
+    })
+  }
+};
 
 module.exports = {
   restricted,
   checkUsernameExists,
   validateRoleName,
   only,
-}
+};
