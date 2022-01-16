@@ -3,12 +3,13 @@ const { checkUsernameExists, validateRoleName } = require('./auth-middleware');
 const { JWT_SECRET, BCRYPT_ROUNDS } = require("../secrets"); // use this secret!
 const Users = require("../users/users-model")
 const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
 
-router.post("/register", validateRoleName, (req, res, next) => {
+router.post("/register",validateRoleName , (req, res, next) => {
   let newUser = req.body
   
-  const hash = bcrypt.hashSync(user.password, BCRYPT_ROUNDS)
-  user.password = hash
+  const hash = bcrypt.hashSync(newUser.password, BCRYPT_ROUNDS)
+  newUser.password = hash
 
   Users.add(newUser)
     .then(savedUser => {
@@ -31,8 +32,8 @@ router.post("/register", validateRoleName, (req, res, next) => {
 
 router.post("/login", checkUsernameExists, (req, res, next) => {
   let { username, password } = req.body
-
-  Users.findBy( 'u.username', username )
+  
+  Users.findBy({'u.username': username})
     .then(([user]) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = makeToken(user)
@@ -70,7 +71,7 @@ function makeToken(user){
   const payload = {
     subject: user.user_id,
     username: user.username,
-    role: user.role_name
+    role_name: user.role_name
   }
   const options = {
     expiresIn: "1d"
