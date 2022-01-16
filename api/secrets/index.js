@@ -7,5 +7,6 @@
   developers cloning this repo won't be able to run the project as is.
  */
 module.exports = {
-
+  BCRYPT_ROUNDS: process.env.BCRYPT_ROUNDS || 8,
+  JWT_SECRET: process.env.JWT_SECRET || "shh"
 }
