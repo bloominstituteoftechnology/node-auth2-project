@@ -14,16 +14,6 @@ function findBy(filter) {
 }
 
 function findById(user_id) {
-  /**
-    You will need to join two tables.
-    Resolves to the user with the given user_id.
-
-    {
-      "user_id": 2,
-      "username": "sue",
-      "role_name": "instructor"
-    }
-   */
   return db('users as u')
     .join('roles as r', 'r.role_id', 'u.role_id')
     .select('u.user_id', 'u.username', 'r.role_name')
