@@ -19,16 +19,6 @@ const restricted = (req, res, next) => {
 }
 
 const only = role_name => (req, res, next) => {
-  /*
-    If the user does not provide a token in the Authorization header with a role_name
-    inside its payload matching the role_name passed to this function as its argument:
-    status 403
-    {
-      "message": "This is not for you"
-    }
-
-    Pull the decoded token from the req object, to avoid verifying it again!
-  */
   if (!req.decodedToken.role_name === role_name) {
     res.status(403).json({message: 'This is not for you'})
   } else {
