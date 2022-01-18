@@ -3,7 +3,7 @@ const User = require('../users/users-model')
 const jwt = require('jsonwebtoken')
 
 const restricted = (req, res, next) => {
-  const token = req.header.authorization
+  const token = req.body.authorization
   
   if (!token) {
     res.status(401).json({message: 'Token required'})
