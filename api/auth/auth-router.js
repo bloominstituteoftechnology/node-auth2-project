@@ -14,9 +14,11 @@ router.post("/register", validateRoleName, (req, res, next) => {
     .then(newUser => {
       res.status(201).json(newUser)
       next()
+    })
+    .catch(err => {
+    res.status(500).json({message: err.message})
   })
 });
-
 
 router.post("/login", checkUsernameExists, (req, res, next) => {
   
@@ -26,18 +28,21 @@ router.post("/login", checkUsernameExists, (req, res, next) => {
     .then(([user]) => {
       if (user && bcrypt.compareSync(password, user.password)) {
         const token = makeToken(user)
-        res.status(200).json({message: `Welcome back ${user.username}`, token})
+
+        res.status(200).json({message: `${user.username} is back!`, token})
       } else {
         next({status: 401, message: 'Invalid credential'})
     }
-  }).catch(next)
+    }).catch(err=>{
+    res.status(500).json({message: err.message})
+  })
 });
 
 function makeToken(user) {
   const payload = {
-    subject: user.user_id,
+    subject: user.id,
     username: user.username,
-    role: user.role_name
+    role: user.role
   }
   const options = {
     expiresIn: "24h"
