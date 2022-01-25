@@ -37,7 +37,7 @@ const only = role_name => (req, res, next) => {
  if ( req.decodedJWT.role_name === role_name ){
    next()
  } else {
-   next({ status: 403, message: 'you are the wrong role to be here'})
+   next({ status: 403, message: 'This is not for you'})
  }
 }
 
