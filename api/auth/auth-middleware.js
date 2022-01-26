@@ -22,11 +22,11 @@ const restricted = (req, res, next) => {
 	if (!token) {
 		next({ status: 401, message: 'Token required' });
 	} else {
-		jwt.verify(token, JWT_SECRET, (err, decoded) => {
+		jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
 			if (err) {
 				next({ status: 401, message: `Token invalid` });
 			} else {
-				req.decodedJwt = decoded;
+				req.decodedToken = decodedToken
 				next();
 			}
 		});
