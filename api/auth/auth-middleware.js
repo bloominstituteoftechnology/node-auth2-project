@@ -20,8 +20,8 @@ const restricted = (req, res, next) => {
   */
 	const token = req.headers.authorization;
 	if (!token) {
-		next({ status: 401, message: 'Token required' });
-	} else {
+		return next({ status: 401, message: 'Token required' });
+	} 
 		jwt.verify(token, JWT_SECRET, (err, decodedToken) => {
 			if (err) {
 				next({ status: 401, message: `Token invalid` });
@@ -31,7 +31,7 @@ const restricted = (req, res, next) => {
 			}
 		});
 	}
-};
+
 
 const only = (role_name) => (req, res, next) => {
 	/*
@@ -44,10 +44,10 @@ const only = (role_name) => (req, res, next) => {
 
     Pull the decoded token from the req object, to avoid verifying it again!
   */
-	if (req.decodedJwt.role === role_name) {
+	if (role_name === req.decodedToken.role_name) {
 		next();
 	} else {
-		next({ status: 403, message: 'you have no power here!' });
+		next({ status: 403, message: 'this is not for you' });
 	}
 };
 
