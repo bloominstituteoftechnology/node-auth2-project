@@ -3,7 +3,7 @@ const db = require("../../data/db-config");
 function find() {
   return db("users")
     .join("roles", "users.role_id", "roles.role_id")
-    .select("users.user_id", "users.username", "role.role_name");
+    .select("users.user_id", "users.username", "roles.role_name");
 }
 
 function findBy(filter) {
