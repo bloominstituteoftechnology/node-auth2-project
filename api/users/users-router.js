@@ -3,7 +3,7 @@ const Users = require("./users-model.js");
 const { restricted, only } = require("../auth/auth-middleware.js");
 
 /**
-  [GET] /api/users
+  [GET] /api/users/
 
   This endpoint is RESTRICTED: only authenticated clients
   should have access.

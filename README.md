@@ -1,4 +1,4 @@
-# Using JSON Web Tokens
+# Using JSON Web Tokens.
 
 ## Introduction
 
