@@ -44,10 +44,10 @@ const restricted = (req, res, next) => {
   */
 const only = role_name => (req, res, next) => {
   const token = req.decodedJwt
-    if (token.role_name !== role_name) {
-      next({ status: 403, message: 'This is not for you' })
-    } else {
+    if (token.role_name === role_name) {
       next()
+    } else {
+      next({ status: 403, message: 'This is not for you' })
     }
 }
 
