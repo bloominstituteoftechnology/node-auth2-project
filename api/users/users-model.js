@@ -1,9 +1,8 @@
 const db = require('../../data/db-config.js');
 
-function find() {
-  /**
+/**
     You will need to join two tables.
-    Resolves to an ARRAY with all users.
+    Resolves to an ARRAY with all user.
 
     [
       {
@@ -18,36 +17,49 @@ function find() {
       }
     ]
    */
-}
-
-function findBy(filter) {
-  /**
-    You will need to join two tables.
-    Resolves to an ARRAY with all users that match the filter condition.
-
-    [
-      {
-        "user_id": 1,
-        "username": "bob",
-        "password": "$2a$10$dFwWjD8hi8K2I9/Y65MWi.WU0qn9eAVaiBoRSShTvuJVGw8XpsCiq",
-        "role_name": "admin",
-      }
-    ]
-   */
-}
-
-function findById(user_id) {
-  /**
-    You will need to join two tables.
-    Resolves to the user with the given user_id.
-
-    {
-      "user_id": 2,
-      "username": "sue",
-      "role_name": "instructor"
+    function find() {
+      return db('users as u')
+        .leftJoin('roles as r ', 'u.role_id', '=', 'r.role_id' )
+        .select('u.user_id', 'u.username', 'r.role_name')
     }
-   */
-}
+    
+    /**
+        You will need to join two tables.
+        Resolves to an ARRAY with all users that match the filter condition.
+    
+        [
+          {
+            "user_id": 1,
+            "username": "bob",
+            "password": "$2a$10$dFwWjD8hi8K2I9/Y65MWi.WU0qn9eAVaiBoRSShTvuJVGw8XpsCiq",
+            "role_name": "admin",
+          }
+        ]
+       */
+    function findBy(filter) {
+      return db('users as u')
+        .leftJoin('roles as r', 'u.role_id', 'r.role_id')
+        .select('u.user_id', 'u.username', 'u.password', 'r.role_name')
+        .where(filter)
+    }
+    /**
+        You will need to join two tables.
+        Resolves to the user with the given user_id.
+    
+        {
+          "user_id": 2,
+          "username": "sue",
+          "role_name": "instructor"
+        }
+       */
+    
+    function findById(user_id) {
+      return db("users as u")
+        .leftJoin("roles as r", "u.role_id", "r.role_id")
+        .select("u.user_id","u.username","r.role_name")
+        .where({ user_id })
+        .first()
+    }
 
 /**
   Creating a user requires a single insert (into users) if the role record with the given
